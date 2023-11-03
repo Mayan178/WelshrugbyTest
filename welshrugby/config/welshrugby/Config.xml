@@ -1,0 +1,181 @@
+<factory>
+	<site name="welshrugby">
+		<environment name="live" domainName="127.0.0.1">
+			<!-- only live settings etc in here -->
+	
+			<!-- general -->
+			<setting name="defaultDomain" value="http://127.0.0.1"/>
+			<setting name="debug" value="false"/> 
+			
+			<setting name="configFolder" value="C:\Inetpub\wwwroot\welshrugby\config\welshrugby"/>
+			<setting name="imageFolder" value="C:\Inetpub\wwwroot\welshrugby\wwwroot\res\img" />
+			<setting name="rawDataPath" value="C:\Inetpub\wwwroot\welshrugby\storage\raw"/>
+			<setting name="jSONDataPath" value="C:\Inetpub\wwwroot\welshrugby\wwwroot\res\jsonFiles"/>
+			
+		</environment>
+
+		<environment name="testing" domainName="127.0.0.1">
+			<!-- only live settings etc in here -->
+	
+			<!-- general -->
+			<setting name="defaultDomain" value="http://127.0.0.1"/>
+			<setting name="debug" value="false"/> 
+			
+			<setting name="configFolder" value="C:\Inetpub\wwwroot\welshrugby\config\welshrugby"/>
+			<setting name="imageFolder" value="C:\Inetpub\wwwroot\welshrugby\wwwroot\res\img" />
+			<setting name="rawDataPath" value="C:\Inetpub\wwwroot\welshrugby\storage\raw"/>
+			<setting name="jSONDataPath" value="C:\Inetpub\wwwroot\welshrugby\wwwroot\res\jsonFiles"/>
+		</environment>
+
+		<environment name="local" domainName="localhost">
+			<!-- only live settings etc in here -->
+	
+			<!-- general -->
+			<setting name="defaultDomain" value="http://localhost"/>
+			<setting name="debug" value="false"/> 
+			
+			<setting name="configFolder" value="C:\Inetpub\wwwroot\welshrugby\config\welshrugby"/>
+			<setting name="imageFolder" value="C:\Inetpub\wwwroot\welshrugby\wwwroot\res\img" />
+			<setting name="rawDataPath" value="C:\Inetpub\wwwroot\welshrugby\storage\raw"/>
+			<setting name="jSONDataPath" value="C:\Inetpub\wwwroot\welshrugby\wwwroot\res\jsonFiles"/>
+		</environment>
+
+
+		<!-- ====== Specify global settings below this line ====== -->
+
+		<!-- Centralized Datasources -->
+			<datasource name="adminSecurity" value="adminSecurity"/>
+			
+			<!-- API information for developer -->
+			<setting name="developerID" value="14"/>
+			<setting name="developerKey" value="m0xa3tG5lX0hDaQe"/>
+			<setting name="developerIV" value="i6fP6b8hbvi4OOX1"/>
+
+		<!-- folders and URL paths -->			
+			<setting name="defaultleagueTemplate" value="league" />
+			<setting name="defaultleagueLogo" value="default.jpg" />
+						
+	
+		<!-- general parameters -->
+		<setting name="cacheEnabled" value="true"/>
+		<setting name="maxCacheSize" value="500000"/> <!-- Maximum size of the cache in bytes -->
+
+		<!-- Application controls -->
+		<component name="Icicle">
+			<controller path="welshrugby.icicle"/>
+		</component>
+	
+		<!-- Load utils first -->
+		<component name="DataTypeConvert">
+			<util path="welshrugby.util.DataTypeConvert"/>
+		</component>
+		
+		<component name="StringUtil">
+			<util path="welshrugby.util.StringUtil"/>
+		</component>
+		
+		<component name="ExcelUtil">
+			<util path="welshrugby.util.excelUtil"/>
+		</component>
+	
+		<component name="HttpUtil">
+			<util path="welshrugby.util.HttpUtil"/>
+		</component>
+	
+		<component name="CacheUtil">
+			<util path="welshrugby.util.CacheUtil"/>
+		</component>
+	
+		<component name="HtmlEdit">
+			<util path="welshrugby.util.HtmlEdit"/>
+		</component>
+	
+		<component name="HtmlUtil">
+			<util path="welshrugby.util.HtmlUtil"/>
+		</component>
+	
+		<component name="DatabaseUtil">
+			<util path="welshrugby.util.DatabaseUtil"/>
+		</component>
+	
+		<component name="validationUtil">
+			<util path="welshrugby.util.validationUtil"/>
+		</component>
+	
+		<component name="mailUtil">
+			<util path="welshrugby.util.mailUtil"/>
+		</component>
+	
+		<!-- Load non-util stand-alone components second -->
+		<component name="Home">
+			<model path="welshrugby.model.home"/>
+			<view path="welshrugby.view.home"/>
+			<controller path="welshrugby.controller.home"/>
+		</component>
+	
+		<component name="Login">
+			<model path="welshrugby.model.login"/>
+			<view path="welshrugby.view.login"/>
+			<controller path="welshrugby.controller.login"/>
+		</component>
+				
+		<component name="LeaguePlayers">
+			<model path="welshrugby.model.leagueplayers"/>
+			<view path="welshrugby.view.leagueplayers"/>
+			<controller path="welshrugby.controller.leagueplayers"/>
+		</component>
+				
+		<component name="LeagueTeams">
+			<model path="welshrugby.model.leagueteams"/>
+			<view path="welshrugby.view.leagueteams"/>
+			<controller path="welshrugby.controller.leagueteams"/>
+		</component>
+				
+		<component name="LeagueMatches">
+			<model path="welshrugby.model.LeagueMatches"/>
+			<view path="welshrugby.view.LeagueMatches"/>
+			<controller path="welshrugby.controller.LeagueMatches"/>
+		</component>
+		
+		<component name="LeagueReports">
+			<model path="welshrugby.model.LeagueReports"/>
+			<view path="welshrugby.view.LeagueReports"/>
+			<controller path="welshrugby.controller.LeagueReports"/>
+		</component>
+						
+		<component name="User">
+			<model path="welshrugby.model.user"/>
+			<view path="welshrugby.view.user"/>
+			<controller path="welshrugby.controller.user"/>
+		</component>
+
+		<component name="Application">
+			<model path="welshrugby.model.application" postExecute="create"/>
+		</component>
+	
+		<component name="Session">
+			<model path="welshrugby.model.session"/>
+		</component>
+	
+		<component name="config">
+			<model path="welshrugby.model.config"/>
+		</component>
+	
+		<component name="Template">
+			<view path="welshrugby.view.template"/>
+		</component>
+	
+		<component name="default">
+			<controller path="welshrugby.controller.default"/>
+		</component>
+	
+		<component name="formFactory">
+			<view path="welshrugby.view.formFactory"/>
+		</component>
+	
+	</site>
+
+</factory>
+
+
+

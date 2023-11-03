@@ -1,0 +1,438 @@
+html, body	{
+	margin: 0;
+	padding: 0;
+	height: 100%;
+	color: #787878;
+	background-position: 50% 50%;
+	background-repeat: no-repeat;
+	text-align: center;
+	padding-left: 10px;
+	padding-right: 10px;
+	}
+
+body, select, textarea, input	{
+	font-family: Verdana, Geneva, Arial, Helvetica, sans-serif;	
+	font-size: 11px;
+	}
+
+tbody a {color:#787878;text-decoration:none;}
+tbody a:hover {color:#787878; text-decoration:underline;}
+
+a.buttonAction {text-decoration:none;}
+
+p	{
+	color: #787878;
+	margin: 0;
+	padding: 0;
+	font-size: 11px;
+	padding: 10px;
+	line-height: 13px;
+	}
+
+#container
+{
+	height: 100%;
+	width: 100%;
+	border-collapse: collapse;
+	vertical-align:middle;
+}
+	
+/*
+#main {
+	padding: 0;
+	margin: 0;
+	}
+
+#mainfull {
+	padding: 14px 10px 20px 10px;
+	width:100%;
+	}
+	
+#mainUserfull {
+	padding: 14px 10px 10px 10px;
+	width:100%;
+	}	
+	
+#mainleft {
+	padding: 14px 0 20px 10px;
+	float:left;
+	width:570px;
+	margin:0;
+	}
+	
+*/
+#mainright {
+	padding: 0 0 20px 10px;
+	float:right;
+	width:190px;
+	margin:0;
+	}
+	
+#mainrightadmin, #mainrightquick, #mainrightpersonal {
+	padding: 0;
+	}
+
+.mainrightadminlink {
+	padding: 2px 0 0 50px;
+	}
+	
+.mainrightadminlastlink {
+	padding: 2px 0 2px 50px;
+	}
+
+.mainrightadminlink a, .mainrightadminlink a:hover, .mainrightadminlastlink a, .mainrightadminlastlink a:hover {
+	color: #000000b4;
+	}
+
+	
+	.mainrightquicklink, .mainrightpersonallink {
+		padding: 2px 0 0 50px;
+		}
+		
+	.mainrightquicklastlink, .mainrightpersonallastlink {
+		padding: 2px 0 2px 50px;
+		}
+	
+		.mainrightquicklink a, .mainrightquicklink a:hover, .mainrightquicklastlink a, .mainrightquicklastlink a:hover {
+			color: #000000b4;
+		}
+
+	.mainrightpersonallink a, .mainrightpersonallink a:hover, .mainrightpersonallastlink a, .mainrightpersonallastlink a:hover {
+		color:#000000b4;
+	}
+
+.injured {
+=	color: #CC0000;
+=	}
+
+.topStats {
+	font-weight: bold;
+}
+
+.topPositions {
+	background-color: #c4c5c7e3;
+}
+
+.playerToggle, .addtoteam, .updateplayer, .teamToggle, .teamactions, .matchToggle, .reportToggle {
+	cursor: pointer;
+}
+
+
+.teamall {
+	width:100%;
+	}
+
+/* match layout */
+.teamVisual {
+	background-image: url(/res/img/stadium.jpg);
+	background-position: top;
+	background-repeat: no-repeat;
+	color: #ffffff;
+	height:405px;
+	float:left;
+	width:734px;
+	font-weight:bold;
+	border:1px solid green;
+	}
+
+	.teamVisual #position1 {
+		float:left;
+		margin: 0;
+		padding: 20px 10px 0px 50px;
+		width:243px;
+		text-align:left;
+		}
+		
+	.teamVisual #position2 {
+		float:left;
+		margin: 0;
+		padding: 20px 0 8px 0;
+		width:243px;
+		text-align:center;
+		}
+		
+	.teamVisual #position3 {
+		float:left;
+		margin: 0;
+		padding: 20px 50px 8px 10px;
+		width:243px;
+		text-align:right;
+		}
+	
+	.teamVisual #position4 {
+		float:left;
+		margin: 0;
+		padding: 0 10px 10px 150px;
+		width:364px;
+		text-align:left;
+		}
+		
+	.teamVisual #position5 {
+		float:left;
+		margin: 0;
+		padding: 0 150px 10px 0;
+		width:364px;
+		text-align:right;
+		}
+	
+	.teamVisual #position6 {
+		float:left;
+		margin: 0;
+		padding: 0 10px 8px 50px;
+		width:243px;
+		text-align:left;
+		}
+		
+	.teamVisual #position8 {
+		float:left;
+		margin: 0;
+		padding: 0 0 8px 0;
+		width:243px;
+		text-align:center;
+		}
+		
+	.teamVisual #position7 {
+		float:left;
+		margin: 0;
+		padding: 0 50px 8px 10px;
+		width:243px;
+		text-align:right;
+		}
+	
+	.teamVisual #position9 {
+		float:left;
+		margin: 0;
+		padding: 0 0 8px 0;
+		width:728px;
+		text-align:center;
+		}
+		
+	.teamVisual #position10 {
+		float:left;
+		margin: 0;
+		padding: 0 0 8px 100px;
+		width:728px;
+		text-align:center;
+		}
+		
+	.teamVisual #position12 {
+		float:left;
+		margin: 0;
+		padding: 0 0 8px 200px;
+		width:728px;
+		text-align:center;
+		}
+		
+	.teamVisual #position13 {
+		float:left;
+		margin: 0;
+		padding: 0 0 8px 300px;
+		width:728px;
+		text-align:center;
+		}
+	
+	
+	.teamVisual #position11 {
+		float:left;
+		margin: 0;
+		padding: 0 10px 8px 50px;
+		width:243px;
+		text-align:left;
+		}
+		
+	.teamVisual #position15 {
+		float:left;
+		margin: 0;
+		padding: 10px 0 8px 0;
+		width:243px;
+		text-align:center;
+		}
+		
+	.teamVisual #position14 {
+		float:left;
+		margin: 0;
+		padding: 0 50px 8px 10px;
+		width:243px;
+		text-align:right;
+		}
+	
+	.teamVisual #position16 {
+		float:left;
+		margin: 0;
+		padding: 0 10px 8px 50px;
+		width:364px;
+		text-align:left;
+		}
+		
+	.teamVisual #position17 {
+		float:left;
+		margin: 0;
+		padding: 0 50px 8px 10px;
+		width:364px;
+		text-align:right;
+		}
+	
+	.teamVisual #position18 {
+		float:left;
+		margin: 0;
+		padding: 0 10px 8px 50px;
+		width:145px;
+		text-align:left;
+		}
+		
+	.teamVisual #position19 {
+		float:left;
+		margin: 0;
+		padding: 0 10px 8px 50px;
+		width:145px;
+		text-align:left;
+		}
+		
+	.teamVisual #position20 {
+		float:left;
+		margin: 0;
+		padding: 0 10px 8px 50px;
+		width:145px;
+		text-align:center;
+		}
+		
+	.teamVisual #position21 {
+		float:left;
+		margin: 0;
+		padding: 0 10px 8px 50px;
+		width:145px;
+		text-align:right;
+		}
+		
+	.teamVisual #position22 {
+		float:left;
+		margin: 0;
+		padding: 0 10px 8px 50px;
+		width:145px;
+		text-align:right;
+		}
+	
+.positiontable {
+	color: #ffffff;
+	font-weight:bold;
+	text-align:left;
+	font-size: 11px;
+	}
+	
+.positiontable td.info {
+	font-size: 10px;
+	vertical-align:bottom;
+	}
+
+.maininfotable, .smallinfotable {
+	background-color: #ffffff;
+	font-family: Verdana, Geneva, Arial, Helvetica, sans-serif;	
+	font-size: small;
+	}
+
+
+.maininfotable td{
+	text-align:left;
+	padding: 2px 10px 0 10px;
+	}
+
+.maininfotable td.first{
+	text-align:left;
+	padding: 2px 10px 0 0;
+	}
+	
+.maininfotableinjured {
+	background-color: #ffffff;
+	font-family: Verdana, Geneva, Arial, Helvetica, sans-serif;	
+	font-size: 11px;
+	color: #CC0000;
+	}
+
+.maininfotableinjured td{
+	text-align:left;
+	padding: 2px 10px 0 10px;
+	color: #CC0000;
+	}
+
+.maininfotableinjured td.first{
+	text-align:left;
+	padding: 2px 10px 0 0;
+	color: #CC0000;
+	}
+	
+
+.clear {
+	clear: both; 
+	font-size: 0; 
+	height: 0px; 
+	}
+
+.mandatory-field {
+	color:red;
+	font-weight:bold;
+	font-size:11pt;
+	margin:-4px;
+	padding-left:6px;
+	float: left;
+	}
+
+/* Success and failure messages to user */
+.success-detail, .failure-detail {
+	width: 100%;
+	padding: 0 10px 0 0;
+	vertical-align: middle;	
+	}
+
+.success .label, .failure .label{
+	font-weight:bold;
+	}
+	
+.success .message, .failure .message {
+	padding-left: 4px;
+	}
+
+
+	
+.validation-advice {
+	text-align:left;
+	color:red;
+	float:left;
+	display: inline;
+	}
+		
+
+/* Success and failure messages */
+
+	
+.failure {
+	font-family: Verdana, Geneva, Arial, Helvetica, sans-serif;	
+	font-size: 11px;
+	color:#8C0000;
+	}
+	
+a.redirect {color:#8C0000;text-decoration:none;}
+a:hover.redirect {color:#8C0000; text-decoration:underline;}
+
+
+/* Errors displayed in template.cfc */
+	.errors {
+		background-color: white;
+		border: 0px solid #8C0000;
+		padding: 4px;
+		margin: 6px;
+		color: red;
+	}
+	
+	.errors ul{
+		font-family: Verdana, Geneva, Arial, Helvetica, sans-serif;	
+		font-size: 11px;
+	}
+	
+
+.positive {
+	color: green;
+	}
+	
+.negative {
+	color: red;
+	}

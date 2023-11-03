@@ -1,0 +1,26 @@
+<LeagueMatchMessages>
+
+	<message type="failure">
+		<container title="You are not logged in" summary=""/>
+		<container title="You have failed to delete a Match" summary=""/>
+		<container title="You have failed to edit a Match" summary=""/>
+		<container title="You have failed to add a Comment" summary=""/>
+		<container title="You have failed to update a Comment" summary=""/>
+		<container title="You have failed to delete a Comment" summary=""/>
+		<container title="You have failed to add a Match" summary=""/>
+	</message>
+	
+	<message type="warning">
+		<container title="" summary=""/>
+	</message>
+	
+	<message type="success">
+		<container title="You have successfully deleted a Match" summary=""/>
+		<container title="You have successfully edited a Match" summary=""/>
+		<container title="You have successfully added a Comment" summary=""/>
+		<container title="You have successfully updated a Comment" summary=""/>
+		<container title="You have successfully deleted a Comment" summary=""/>
+		<container title="You have successfully added a Match" summary=""/>
+	</message>
+	
+</LeagueMatchMessages>

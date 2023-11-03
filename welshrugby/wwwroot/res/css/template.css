@@ -1,0 +1,40 @@
+#wrapper {
+	width: 100%;
+}
+
+/* Content areas */
+	#central {
+		clear:both;
+		margin: 0px;
+		width:100%;
+		background-color:white;
+	}
+	#central #main {
+		padding: 8px;
+		float: left;
+		width: 97%;
+		background-color: white;
+	}
+	#central #wide {
+		padding-left: 10px;
+		float: left;
+		border: 0px solid red;
+		background-color: white;
+		width: 100%;
+	}
+
+	
+/* Errors displayed in template.cfc */
+	.errors {
+		background-color: white;
+		border: 0px solid #8C0000;
+		padding: 4px;
+		margin: 6px;
+		color: red;
+	}
+	
+	.errors ul{
+		font-family: Verdana, Geneva, Arial, Helvetica, sans-serif;	
+		font-size: 11px;
+	}
+	

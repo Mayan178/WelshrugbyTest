@@ -1,0 +1,12 @@
+<homemessages>
+
+	<message type="failure">
+		<container title="You cannot view this page as you are not logged in" summary=""/>
+		<container title="You are not logged in" summary=""/>
+	</message>
+	
+	<message type="success">
+		<container title="" summary=""/>
+	</message>
+	
+</homemessages>

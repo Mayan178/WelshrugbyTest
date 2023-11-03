@@ -1,0 +1,2307 @@
+<HTML><HEAD>
+    <TITLE>ISAPI_Rewrite Documentation</TITLE>
+    <META content="False" name="vs_showGrid">
+    <META http-equiv="Content-Type" content="text/html; charset=windows-1252">
+    <STYLE> BODY { PADDING: 5px; FONT-SIZE: x-small; COLOR: #000000; FONT-FAMILY: verdana,tahoma; BACKGROUND-COLOR: #fcfcfc; TEXT-ALIGN: justify }
+  P { FONT-SIZE: x-small; FONT-FAMILY: verdana,tahoma; TEXT-ALIGN: justify }
+  p.copyright { color: #666666; font-weight: bold; text-align: Right }
+  UL { FONT-SIZE: x-small; FONT-FAMILY: verdana,tahoma; TEXT-ALIGN: justify }
+  OL { FONT-SIZE: x-small; FONT-FAMILY: verdana,tahoma; TEXT-ALIGN: justify }
+  DL { FONT-SIZE: x-small; FONT-FAMILY: verdana,tahoma; TEXT-ALIGN: justify }
+  H1 { FONT-WEIGHT: bolder; FONT-SIZE: large; COLOR: #496DC2; FONT-FAMILY: tahoma; VERTICAL-ALIGN: bottom }
+  H1 SPAN.subtitle { PADDING: 0px; MARGIN: 0px; FONT-WEIGHT: lighter; FONT-SIZE: small; FONT-FAMILY: tahoma }
+  H2 { FONT-WEIGHT: lighter; FONT-SIZE: large; COLOR: #496DC2; FONT-FAMILY: tahoma; TEXT-ALIGN: left }
+  H3 { FONT-WEIGHT: bold; FONT-SIZE: small; COLOR: #496DC2; FONT-FAMILY: serif; TEXT-ALIGN: left }
+  H4 { FONT-WEIGHT: bold; FONT-SIZE: x-small; MARGIN-LEFT: 0.1em; COLOR: #496DC2; FONT-FAMILY: serif; TEXT-ALIGN: left }
+  TABLE { MARGIN: 5px }
+  TD { FONT-SIZE: x-small; FONT-FAMILY: verdana,tahoma; BACKGROUND-COLOR: #f4f4f4 }
+  TD.contents { PADDING: 0px; FONT-SIZE: x-small; FONT-FAMILY: verdana,tahoma; BACKGROUND-COLOR: #fcfcfc }
+  TH { FONT-SIZE: x-small; FONT-FAMILY: verdana,tahoma; BACKGROUND-COLOR: #d4d4d4 }
+  PRE { PADDING-RIGHT: 10px; PADDING-LEFT: 10px; FONT-SIZE: x-small; PADDING-BOTTOM: 10px; MARGIN: 0px; PADDING-TOP: 10px; FONT-FAMILY: "courier new" }
+  .code { BACKGROUND-COLOR: #f4f4f4 }
+  .note { PADDING-RIGHT: 0.8em; PADDING-LEFT: 0.8em; FONT-SIZE: x-small; PADDING-BOTTOM: 0.8em; COLOR: #506580; PADDING-TOP: 0.8em; FONT-FAMILY: verdana,tahoma; BACKGROUND-COLOR: #f5f9ff; TEXT-ALIGN: justify }
+  .note TD { PADDING-RIGHT: 0.8em; PADDING-LEFT: 0.8em; FONT-SIZE: x-small; PADDING-BOTTOM: 0.8em; COLOR: #506580; PADDING-TOP: 0.8em; FONT-FAMILY: verdana,tahoma; BACKGROUND-COLOR: #f5f9ff; TEXT-ALIGN: justify }
+  .regex { MARGIN: 0.3em 0em 0.1em; BACKGROUND-COLOR: #f5fff5 }
+  .note PRE { MARGIN: 0.3em 0em 0.1em }
+  P I { FONT-FAMILY: arial }
+  A { COLOR: #496DC2; FONT-FAMILY: tahoma; TEXT-DECORATION: none }
+  A:hover { COLOR: #10873a; TEXT-DECORATION: underline }
+  </STYLE>
+  </HEAD>
+  <BODY>
+    <H1>ISAPI_Rewrite 2 documentation</H1>
+<TABLE border="0" cellpadding="0" cellspacing="0">
+  <TR>
+    <TD class="contents" vAlign="top">
+    <A href="#intro" ><B>Introduction</B></A><BR>
+    <A href="#whatsnew" ><B>Feature history</B></A><BR>
+    <A href="#concept" ><B>Main concept</B></A><BR>
+    <A href="#install" ><B>Installation</B></A><BR>
+    <a href="#limits"><B>Known limitations and problems</B></A><BR>
+       <DIV style="MARGIN-LEFT: 2em">
+       <A href="#litelimit" >Lite version limitation</A><BR>
+       <A href="#isaversion" >ISA version specifics</A><BR>
+       <A href="#iis6notes" >Special notes for the IIS6</A><BR>
+       <A href="#prb">Known problems</A><BR>
+       </DIV>
+    <A href="#config" ><B>Configuration</B></A><BR>
+      <DIV style="MARGIN-LEFT: 2em">
+        <A href="#security">Permissions required to run ISAPI_Rewrite</A><BR>
+        <A href="#proxyConfig">Configuration of the proxy module.</A><BR>
+        <A href="#conffile" >Configuration file format</A><BR>
+        <A href="#UriMatchPrefix">UriMatchPrefix directive</A><BR>
+        <A href="#UriFormatPrefix">UriFormatPrefix directive</A><BR>
+        <A href="#RewriteCond" >RewriteCond directive</A><BR>
+        <A href="#RewriteRule" >RewriteRule directive</A><BR>
+        <A href="#RewriteHeader" >RewriteHeader directive</A><BR>
+        <A href="#RewriteProxy" >RewriteProxy directive</A><BR>
+        <A href="#proxyAuth">Authentication schemes available for proxy.</A><br>
+        <A href="#CacheClRate" >CacheClockRate directive</A><BR>
+        <A href="#EDConfig" >EnableConfig and DisableConfig directives</A><BR>
+        <A href="#EDRewrite" >EnableRewrite and DisableRewrite directives</A><BR>
+        <A href="#RepeatLimit">RepeatLimit directive</A><BR>
+        <A href="#RFStyle" >RFStyle directive</A><BR>
+        <A href="#ConfigUtility">Configuration Utility</A><BR>
+      </DIV>
+    <A href="#RegexSynt" ><B>Regular expression syntax</B></A><BR>
+      <DIV style="MARGIN-LEFT: 2em">
+        <A href="#rxLiterals" >Literals</A><BR>
+        <A href="#rxWildcard" >Wildcard</A><BR>
+        <A href="#rxRepeats" >Repeats</A><BR>
+        <A href="#rxNGRepeats" >Non-greedy repeats</A><BR>
+        <A href="#rxParenthesis" >Parenthesis</A><BR>
+        <A href="#rxNMParenthesis" >Non-Marking Parenthesis</A><BR>
+        <A href="#rxLookAhead">Forward lookahead asserts</A><BR>
+    <A href="#rxAlt" >Alternatives</A><BR>
+        <A href="#rxSets" >Sets</A><BR>
+        <A href="#rxCharClasses" >Character classes</A><BR>
+        <A href="#rxCollElem" >Collating elements</A><BR>
+        <A href="#rxEquivClasses" >Equivalence classes</A><BR>
+        <A href="#rxLineAnchors" >Line anchors</A><BR>
+        <A href="#rxBackRef" >Back references</A><BR>
+        <A href="#rxWordOp" >Word operators</A><BR>
+        <A href="#rxEscapeOp" >Escape operator</A><BR>
+        <A href="#rxWhatMatch" >What gets matched?</A><BR>
+        <A href="#pathologic">Special note about "pathological" regular expressions</A>
+      </DIV>
+    <B><A href="#FormStrSynt" >Format string syntax</A></B><BR>
+    <A href="#examples" ><B>Examples</B></A><BR>
+    </TD>
+  </TR>
+</TABLE>
+<DIV class="content">
+    <H2><A name="intro"></A>Introduction</H2>
+    <P>ISAPI_Rewrite is a powerful regular expressions-based
+      URL manipulation engine. It acts mostly like Apache's mod_Rewrite, but it is
+      designed especially for Microsoft Internet Information Server
+      and Microsoft Security and Acceleration Server 2004. If you ever
+      wanted to change your web site's URL scheme, this product is for you!</P>
+    <P>Some key benefits of ISAPI_Rewrite:</P>
+    <UL>
+      <LI><B>Speed</B>
+        <P>ISAPI_Rewrite is extremely fast and highly scalable
+          solution. It is written by using only pure C/C++ code, Win32 API and ISAPI. It
+          uses intelligent configuration cache mechanism. All work is done just in one
+          stage and there are no recursively requests or any other operations that may
+          take a long time.</P>
+      <LI><B>Security</B>
+        <P>ISAPI_Rewrite is designed for operation in a shared
+          environment. It can serve as many sites as you have. ISP and hosting providers
+          can safely permit their users to configure ISAPI_Rewrite and be sure that any
+          configuration changes will affect only local user's environment. ISAPI_Rewrite
+          can even solve many security problems, for example, block an access to some
+          folders or file extensions or create more complex rules.</P>
+      <LI><B>Power</B>
+        <P>Flexibility and power of ISAPI_Rewrite come from its
+          regular expression nature. With regular expressions you don't need to write a
+          thousands check strings. The comparison and replace of URLs can be done with a
+          few string patterns. So, ISAPI_Rewrite can do many things that cannot be done
+          using other solutions available for IIS. See <A href="#examples">examples</A>
+          section for more information.</P></LI></UL>
+
+  <H2><A name="concept"></A>Main concept</H2>
+  <P>ISAPI_Rewrite provides a rule-based rewriting engine to rewrite requested
+  URLs on the fly. It supports virtually unlimited number of the rules and an
+  unlimited number of attached rule conditions to provide a really flexible
+  and powerful URL manipulation mechanism (Really a config file size is forcibly
+  limited to 2Mb to prevent possible config parsing overhead). The URL manipulations
+  can depend on tests for HTTP headers, Server variables, Request-URI, method
+  and version information of a client request.</P>
+
+  <P>In most cases ISAPI_Rewrite is used to rewrite a Request-URI (defined in the RFC 2616) and common HTTP request
+  headers. For example, if a client requests resource
+  as <STRONG>http://www.somesite.com<FONT color="#FF0000">/path/file.ext?parameter=value</FONT></STRONG>
+  ISAPI_Rewrite will operate on the part marked in red.
+  In addition ISAPI_Rewrite
+  can rewrite, create or remove any other HTTP header of the request.
+  Program operation may result in rewriting, proxying, redirection,
+  or blocking of an original request to a server.
+  </P>
+  <P>The rewriting engine goes through the ruleset rule by rule (<I>RewriteRule</I> and <I>RewriteHeader</I>
+  directives). The particular rule is applied only if it matches Request-URI
+  and all corresponding conditions (<I>RewriteCond</I> directives) match theirs test strings (headers or server valiables).
+  <FONT color="#FF0000">ISAPI_Rewrite uses <STRONG>MATCH</STRONG>
+  algorithm.</FONT> It means that a test string is NOT searched for a rule pattern, but the whole test string is matched against a pattern.
+  For example, pattern <I>a*b</I> will not match string <I>aaaaaaaabbbbbbbb</I>.</P>
+  <P>Result of a successful rule application
+  is saved in the original header and it will be visible for all subsequent rules. Rules processing
+  stops when a last rule (redirect, proxy, forbid or rule marked by the L flag) is matched.</P>
+  <P><B>Rewriting</B> will cause server to continue request processing with a new URI as
+  if it has been originally requested by a client. New URI can include query
+  string section (following question mark) and may point to to any plain files (like images), scripts (like ASP),
+  programs (like EXE), etc.</P>
+  <P><B>Proxiing</B> causes the resulting URI to be internally treated as a target on another server
+  and immediately (i.e. rules processing stops here) passed to the
+  ISAPI extension handling proxy requests. You have to make sure that the
+  resulting string is a valid URL including protocol, host, etc. Otherwise you will get an error from the proxy.</P>
+  <P><B>Redirection</B> will result in sending of an immediate response with a redirect
+  instruction (HTTP response code 302 or 301) having resulting
+  URI as a new location. You can use an absolute URL (and that is required by the RFC
+  2616) in a redirection instruction to redirect a request to a different host, port
+  and protocol. Redirect instruction always causes rewriting engine to stop rules
+  sequence processing.</P>
+
+    <P>Rules are processed in the order of appearance in a
+      configuration file. ISAPI_Rewrite applies server-wide (global) rules first. Then it applies rules specific
+      for an IIS web site handling a request (if site-level rules are present). There are no
+      recursive requests or subsequent rollbacks in a processing order (except explicitly generated
+      loops). So, request processing will never fall into an infinite loop.</P>
+
+  <P>Before any URI modification ISAPI_Rewrite saves original Request-URI
+  into the HTTP header named <EM>X-Rewrite-URL</EM>. Then it can be retrieved
+  in ASP using Request.ServerVariables("HTTP_X_REWRITE_URL") alias.</P>
+
+  <P>Multiple <I>RewiteCond</I> directives followed by a <I>RewriteRule</I> (or <I>RewriteProxy</I>) directive
+  affect only that <I>RewriteRule</I>. So, those conditions should be considered as a part of a complex rule.</P>
+
+  <P>Whenever you put parentheses in any regular expression present in a complex rule (a rule with conditions)
+  you are marking a submatch that could be used in a format string (using $N syntax)
+  or as a back-reference (using \N syntax) in subsequent conditions. These submathces are global for the whole complex rule (
+  <I>RewriteRule</I> directive and corresponding <I>RewriteCond</I>
+  directives). Submatches are numbered from up to down and from left to right
+  beginning from the first <I>RewriteCond</I> directive (if such directive exists)
+  corresponding to the <I>RewriteRule</I>.</P>
+
+  <P>To simplify rules and strengthen server security it is
+  strongly recommended to disable parent paths in the IIS settings.</P>
+
+  <H2><A name="install"></A>Installation</H2>
+  <P>Common ISAPI_Rewrite installation procedure consists of the following steps:
+  <OL>
+    <LI>ISAPI_Rewrite modules installation and registration. This step is described below.</LI>
+    <LI>Product registration with the help of ISRWConfig utility.</LI>
+    <LI>File system permissions adjustment. Permissions required to run ISAPI_Rewrite are described
+             <a href="#security">here</a>.
+             <font color="red"><b>If permissions on the ISAPI_Rewrite modules (these does not include ini files)
+             were changed you may need to restart IIS (for example with iisreset command).</b></font></LI>
+  </OL>
+  </P>
+  <P>ISAPI_Rewrite modules could be installed either automatically or manually.</P>
+
+  <H3>Automatic installation</H3>
+  <P>Usually ISAPI_Rewrite is installed by running one of the installation packages
+  and following a wizard instructions. Installation program copies ISAPI_Rewrite files
+  and register COM-objects, ISAPI filters and ISAPI extensions automatically.</P>
+  <P><B>To install ISAPI_Rewrite on the Windows Vista you will need to install the following optional IIS
+  components (using Add/Remove programs applet -> System Components) before the ISAPI_Rewrite installation:
+  <UL>
+  <LI>Web Management Tools\IIS 6 Management Compatibility\IIS6 WMI compatibility</LI>
+  <LI>Web Management Tools\IIS 6 Management Compatibility\IIS metabase and IIS6 configuration compatibility</LI>
+  <LI>World Wide Web Services\Application Development Features\ISAPI Filters</LI>
+  <LI>Full version only: World Wide Web Services\Application Development Features\ISAPI Extensions</LI>
+  </UL>
+  </B></P>
+
+  <H3>Manual installation</H3>
+  <P>Only Full version of the ISAPI_Rewrite supports manual installation. You will need to
+  download distinct manual installation package containing all required files. You could install
+  all features or only a part of them.
+  <P>The following options could be installed:
+  <UL>
+  <LI>Filter - <B>required component</B>. Filter handles rewrites and redirects and maps proxy requests to the proxy module.</LI>
+  <LI>Proxy - optional component. Proxy supports request proxiing to another web server. Also, it is required for handling
+      of new-style redirects and forbids.</LI>
+  <LI>Configuration utility - optional component. Provides UI for product registration and changing
+      of miscellaneous proxy options.</LI>
+  <LI>Regular expressions test utility - optional component. Provides UI for rules testing.</LI>
+  <LI>Metabase watcher - optional component. Monitors changes of a web site root folder path and forces filter to reload
+      per-site configuration after a path change.</LI>
+  <LI>Messages file - optional component. Provides descriptions for critical errors those could be logged into the
+      Application event log.</LI>
+  <LI>Documentation - optional component. Contains ISAPI_Rewrite manual.</LI>
+  </UL>
+  </P>
+  <H4>Installation sequence</H4>
+  <P>
+  <OL>
+      <LI>Choose a location where ISAPI_Rewrite files will be stored (installation folder). For example, C:\Helicon\ISAPI_Rewrite".</LI>
+      <LI>Choose components to be installed.</LI>
+      <LI>Copy needed files to the installation folder. Files required for each component are:
+   <UL>
+            <LI>Filter - ISAPI_Rewrite.dll, httpd.ini</LI>
+            <LI>Proxy - rwhelper.dll, proxycfg.vbs.
+                And rwhelper.dll.manifest is required for Windows Server 2003 and Windows Vista <b>only.
+                Do not copy this file if you are running NT4, Windows 2000 or Windows XP.</b></LI>
+            <LI>Configuration utility - ISRWConfig.exe.</LI>
+            <LI>Regular expressions test utility - RXTest.exe.</LI>
+            <LI>Metabase watcher - mtbnotif.dll.</LI>
+            <LI>Messages file - RewriteMsg.dll, regmsg.vbs.</LI>
+      <LI>Documentation - documentation.htm, logo.gif.</LI>
+   </UL>
+      <LI>Create registry key <b>HKEY_LOCAL_MACHINE\SOFTWARE\Helicon\ISAPI_Rewrite</b> with nested value <b>InstallDir</b>
+          of a type REG_SZ and set this value to the installation folder path (for example, C:\Helicon\ISAPI_Rewrite\).</LI>
+      <LI>Register installed components as described below (components not listed below do not require any registration).</LI>
+      <LI>If you already have a key register the product with the help of the ISAPI_Rewrite configuration utility.</LI>
+      <LI>Check file system permissions as described in the section <A href="#security">Permissions required to run ISAPI_Rewrite</A>.</LI>
+  </OL>
+  </P>
+
+  <h4>Filter registration</h4>
+  <p>On NT4, Windows 2000, Windows XP and Windows Server 2003 use IIS MMC snap-in to add <b>ISAPI_Rewrite.dll</b> to ISAPI filters
+     list either for the whole IIS server or for specific web sites only.</p>
+  <p>On Windows Vista first install optional IIS components:
+     <OL>
+        <LI>Web Management Tools\IIS 6 Management Compatibility\IIS metabase
+            and IIS6 configuration compatibility.</LI>
+        <LI>World Wide Web Services\Application Development Features\ISAPI Filters</LI>.
+     </OL>
+     Then use IIS MMC snap-in to add <b>ISAPI_Rewrite.dll</b> to ISAPI Filters feature either globally or for specific web sites only.
+  </p>
+
+  <h4>Proxy registration</h4>
+  <ul>
+  <li>On NT4, Windows 2000 without SP3 (or later) and Windows XP without SP1 (or later) first install WinHTTP 5.1.
+     It could be installed with SOAP Toolkit 3 available at <a href="http://download.microsoft.com/download/2/e/0/2e068a11-9ef7-45f5-820f-89573d7c4939/soapsdk.exe">
+  http://download.microsoft.com/download/2/e/0/2e068a11-9ef7-45f5-820f-89573d7c4939/soapsdk.exe</a>.</li>
+  <li>On Windows Vista first install optional IIS component <b>World Wide Web Services\Application Development Features\ISAPI Extensions</b>.</li>
+  <li>Run proxy configuration script with the command:<br>
+     <b>cscript proxycfg.vbs -r</b>.<br>
+     <font color="red">On 64-bit systems make sure that you running 64-bit cscript otherwise you will get a script error</font>.</li>
+  <li>On Windows 2003 create a record for rwhelper.dll (<font color="red">specify short (8.3-style) path name for a module path</font>) in the <b>Web Service Extensions</b> list and mark it as allowed.</li>
+  <li>On Windows Vista create a record for rwhelper.dll (<font color="red">specify short (8.3-style) path name for a module path</font>) in the <b>ISAPI and CGI Restrictions</b> feature and mark it as allowed.</li>
+  </ul>
+
+  <h4>Metabase watcher registration</h4>
+  Issue the following command from the installation folder:<br>
+  <b>regsvr32 mtbnotif.dll</b>.
+
+  <h4>Messages file registration</h4>
+  Launch <b>regmsg.vbs</b> script from the installation folder.
+
+  <H2><A name="limits"></A>Known limitations and issues</H2>
+  <H3><A name="litelimit"></A>Lite version limitation</H3>
+
+  <P>Lite and Full versions of ISAPI_Rewrite shares the same rewriting engine
+  and source code. But Lite version does not support per-site configurations
+  and all relative features. Only global rules are processed. In addition Lite
+  version does not include proxying engine. The following directives are not
+  supported in the Lite version: RewriteProxy, EnableRewrite, DisableRewrite, EnableConfig,
+  DisableConfig, CacheClockRate. The following flags are not supported in the Lite
+  version: P - proxy.</P>
+
+  <H3><A name="isaversion"></A>ISA version specifics</H3>
+  <P>ISAPI_Rewrite for ISA Server 2004 is based on the Lite version of the ISAPI_Rewrite. I.e. it
+  has the same limitations as the Lite version (That is due to the ISA architecture. It does not
+  support subset of the ISAPI required for other Full version features to work).
+  <Strong>Note that if you have more than one ISA Server in a servers array then
+  you have to install ISAPI_Rewrite for ISA 2004 on all array members.</Strong>
+
+  <H3><A name="iis6notes"></A>Special notes for the IIS6</H3>
+    <P>These special notes concern new features of the Internet Information Server 6.0 (built-in into the
+    Windows 2003 Server) and limitations imposed by those features upon the ISAPI_Rewrite's functionality.</P>
+    <P>The main difference of the IIS6 from its ancestors is a new process model called Worker Process Isolation (WPI) mode.
+    Although IIS6 could operate in the IIS5-compatibility mode (which have no effect on the ISAPI_Rewrite's functionality)
+    its main advantages could be achieved only in the WPI mode.</P>
+    <P>In the WPI mode virtual web sites or even individual web applications are running inside Application Pools. And
+    each application pool is served by one or more isolated worker processes w3wp.exe. It looks like High isolation mode
+    in the IIS5 but there exists one significant difference. Filters are not running inside the inetinfo.exe process anymore.
+    They are running inside worker processes as usual applications.</P>
+    <P>It means that there could be multiple instances of a single filter (one instance for each worker process).
+    Nevertheless this is not a problem for the ISAPI_Rewrite. But if, for example, two web applications
+    http://mysite/app1 and http://mysite/app2 are running in different application pools than
+    rewriting of URLs from /app1 to the /app2 will be prohibited in spite of both applications belong to
+    the same web site http://mysite. Only redirect or proxy could be safely used in this case.
+    Nevertheless, usually this restriction does not have any significant impact on the ISAPI_Rewrite usage since
+    in most cases the whole web site contains a single web application served by a single
+    application pool.
+    </P>
+  <H3><A name="prb"></A>Known problems</H3>
+  <P><OL>
+  <LI>IIS5 seems to have problems with HTTPS responses generated from a filter. This could make
+  old-style HTTPS redirect to fail. To bypass this problem enable new-style redirects with the
+  <PRE>RFStyle New</PRE> directive.
+  </OL></P>
+
+    <H2><A name="config"></A>Configuration</H2>
+    <H3><A name="security"></A>Permissions required to run ISAPI_Rewrite</H3>
+    <P>On Windows NT4, Windows 2000, Windows XP and Windows 2003 in IIS5 compatibility mode
+    filter runs in the inetinfo.exe process under the
+    System account. Thus System account should be given at least Read access to all ISAPI_Rewrite dlls,
+    ISAPI_Rewrite.lic file and
+    all httpd.ini files. We also recommend giving System account Modify permissions on all folders
+    containing httpd.ini files. That will allow creation of httpd.parse.errors files containing config
+    files parsing errors. Additional permissions may be required for the proxy module. Since it
+    could be running in the Pooled or High-isolated application modes, accounts of the IIS shared pool
+    and high isolation pools should be given Read permissions to the rwhelper.dll and ISAPI_Rewrite.lic files.
+    Also these accounts should be given Modify permissions on the System temporary folder (usually
+    C:\Windows\Temp).
+    By default IWAM_&lt;ComputerName&gt; is used for all pools. Pool account could be found
+    in the corresponding COM+ application settings with the help of COM+ Administration MMC snap-in.
+    </P>
+    <P>On Windows 2003 in native IIS mode (WPI mode) both the filter and the proxy run in the w3wp.exe
+    worker process corresponding to an
+    application pool hosting particular web application. Each application pool could be configured
+    to use its own identity. This could turn permissions configuration into a tricky task.
+    However in a correct IIS configuration each used identity should be a member of
+    IIS_WPG group. So, IIS_WPG group could be used to assign required permissions.
+    At least Read permissions should be given to all ISAPI_Rewrite
+    dlls, rwhelper.dll.manifest, ISAPI_Rewrite.lic and all httpd.ini files.
+    Also if the proxy will be used IIS_WPG should be given Modify permissions on the System temporary folder (usually
+    C:\Windows\Temp).
+    We also recommend giving IIS_WPG
+    Modify permissions on the directories containing httpd.ini files to allow httpd.parse.errors
+    files creation.
+    </P>
+    <P>On Vista permissions configuration is almost the same as Windows 2003 configuration except that
+    there is no IIS_WPG group there. So, all WPI accounts (usually NETWORK SERVICE is the only such account)
+    should be given required permissions.</P>
+    <H3><A name="proxyConfig"></A>Configuration of the proxy module.</H3>
+    <P>Sometimes proxy module may require manual configuration (If you will see 404 errors when
+    proxying then probably it is the case described here). It happens when inheritance chain
+    of the ScriptMap metabase property was broken (This is a normal situation which usually occurs
+    when a web site configuration was manually altered). In this case script mapping required for the
+    proxy to work should be populated manually. There is a WSH script called <b>cscript.vbs</b> in the
+    ISAPI_Rewrite installation folder that could be used to populate proxy script mapping
+    through a metabase. Read <a href="#ConfigUtility">Configuration Utility section</a> for a script
+    usage details.</P>
+    <H3><A name="conffile"></A>Configuration file format</H3>
+    <P>There are two types of configuration files - global
+      (server-level) and individual (site-level) files. The global configuration
+      file should be named <B>httpd.ini</B> and should appear in
+      the ISAPI_Rewrite installation directory. The shortcut of this file is provided
+      through the start menu. The individual configuration files should be named <B>httpd.ini</B>
+      and could appear in physical root directories
+      of virtual sites. All configuration files have the same format. And it is the format of a standard
+      Windows INI file where settings are broken by sections. <font color="red">The only section allowed in this version
+      of
+      ISAPI_Rewrite is <B>[ISAPI_Rewrite]</B>. All directives
+      should be placed in this section and each directive should be placed on a
+      separate line. Any text outside this section will be ignored.</font></P>
+    <P>httpd.ini file example:</P>
+    <TABLE class="code" width="98%">
+      <TBODY>
+        <TR>
+          <TD><PRE>[ISAPI_Rewrite]
+
+# This is a comment
+
+# 300 = 5 minutes
+CacheClockRate 300
+RepeatLimit 20
+
+# Block external access to the httpd.ini and httpd.parse.errors files
+RewriteRule /httpd(?:\.ini|\.parse\.errors) / [F,I,O]
+
+# Block external access to the Helper ISAPI Extension
+RewriteRule .*\.isrwhlp / [F,I,O]
+
+# Some custom rules
+RewriteCond Host: (.+)
+RewriteRule (.*) /$1$2 [I]
+</PRE></TD></TR></TBODY></TABLE>
+    <P>When ISAPI_Rewrite parses configuration file it creates
+      error log file named <B>httpd.parse.error </B>in the same
+      directory where parsed file is located. <font color="red">Only obvious syntax errors could be detected
+      during parsing. Complex syntax errors and logic errors could be found only during
+      rules execution. So, they will not be logged into the httpd.ini. It is recommend to check
+      a new rule with the <a href="#rxtest">Regular Expressions Testing Tool</a> before putting a rule into
+      a configuration file.</font></P>
+
+  <H3><A name="UriMatchPrefix"></A>UriMatchPrefix directive</H3>
+    <TABLE class="note" width="98%">
+      <TBODY>
+        <TR>
+          <TD><B>Syntax:&nbsp;UriMatchPrefix</B> <I>PrefixString</I></TD></TR></TBODY></TABLE>
+
+  <P> The <I>UriMatchPrefix</I> directive defines a string that will be prepended to <I>TestVerb</I>s
+  of all subsequent <i>RewriteRule</i>, <i>RewriteProxy</i>,  <i>RewriteCond URL</i> and <i>RewriteHeader URL</i>
+  directives (i.e. to all test conditions on URI). This directive is a partial analog of Apache's RewriteBase
+  directive. Default value for the UriMatchPrefix is empty string.</P>
+
+  <H3><A name="UriFormatPrefix"></A>UriFormatPrefix directive</H3>
+    <TABLE class="note" width="98%">
+      <TBODY>
+        <TR>
+          <TD><B>Syntax:&nbsp;UriFormatPrefix</B> <I>PrefixString</I></TD></TR></TBODY></TABLE>
+
+  <P> The <I>UriFormatPrefix</I> directive defines a string that will be prepended to <I>FormatString</I>s
+  of all subsequent <i>RewriteRule</i> and <i>RewriteHeader URL</i> directives (i.e. to all URI format strings).
+  Default value for the UriFormatPrefix is empty string.</P>
+
+
+  <H3><A name="RewriteCond"></A>RewriteCond directive</H3>
+    <TABLE class="note" width="98%">
+      <TBODY>
+        <TR>
+          <TD><B>Syntax:&nbsp;RewriteCond</B> <I>TestVerb CondPattern [Flags]</I></TD></TR></TBODY></TABLE>
+
+  <P>The <I>RewriteCond</I> directive defines a rule condition. Precede a <I>RewriteRule</I>
+  or <I>RewriteHeader</I> or <I>RewriteProxy</I> directive with one or more <I>RewriteCond</I>
+  directives. <font color="red">Conditions affect only the next immediately following rule
+  (RewriteRule, RewriteHeader or RewriteProxy). Thus they are effectively bound to this rule.</font>
+  A rule with conditions will be applied only if it will match a test string and all its bound conditions
+  will match theirs test strings.</P>
+
+  <UL>
+  <LI><B>TestVerb</B>
+    <P>Specifies verb that will be matched against regular expression.</P>
+    <P><I>TestVerb</I>=(URL | METHOD | VERSION | HTTPHeaderName: | %ServerVariable)
+    where:</P>
+    <UL>
+    <LI><I>URL</I> - returns Request-URI of client request as described in
+      RFC 2068 (HTTP 1.1);
+    <LI><I>METHOD</I> - returns HTTP method of client request (OPTIONS, GET,
+      HEAD, POST, PUT, DELETE or TRACE);
+    <LI><I>VERSION</I> - returns HTTP version;
+    <LI><I>HTTPHeaderName</I> - returns value of the specified HTTP header.
+      <I>HTTPHeaderName</I> can be any valid HTTP header name. Header names
+      should include the trailing colon ":".&nbsp;If specified header does
+      not exists in a client's request&nbsp; <I>TestVerb </I>is treated as
+      empty string.
+      <TABLE class="code">
+      <TBODY>
+        <TR>
+        <TD><PRE><B>HTTPHeaderName = </B></PRE>
+          <PRE>Accept:
+Accept-Charset:
+Accept-Encoding:
+Accept-Language:
+Authorization:
+Cookie:
+From:
+Host:
+If-Modified-Since:
+If-Match:
+If-None-Match:
+If-Range:
+If-Unmodified-Since:
+Max-Forwards:
+Proxy-Authorization:
+Range:
+Referer:
+User-Agent:
+<I>Any-Custom-Header:</I></PRE></TD>
+        </TR>
+      </TBODY>
+      </TABLE>
+    </LI>
+    <P>For more information about HTTP headers and their values refer to RFC
+      2068.</P>
+    <LI><p><I>ServerVariable</I> - returns value of the specified Server Variable.
+      For examlpe, SERVER_PORT. Complete list of the server variables could
+      be found in the IIS documentation. Variable name should be prefixed
+      with % sign. <font color="red">Note that server variable names are case sensitive.
+      So, using <b>%https</b> instead of <b>%HTTPS</b>, for example, will always result in
+      an empty value.</font></p></LI>
+    </UL>
+  <LI><B>CondPattern</B>
+    <P>The regular expression to match <I>TestVerb</I>.</P>
+  </LI>
+  <LI><B>[Flags]</B>
+    <P><EM>Flags</EM> is a comma-separated list of the following flags:<BR>
+    <BR>
+    <UL>
+    <LI><STRONG>O</STRONG>&nbsp;(n<STRONG>O</STRONG>rmalize)
+      <P>Normalizes string before processing. Normalization includes removing
+      of an URL-encoding, illegal characters, etc. <font color="red">Also,
+      IIS normalization of an URI completely removes query string. So, normalization should
+      not be used if query string is needed.</font> This flag may be useful with
+      URLs and URL-encoded headers.</P>
+    </LI>
+    </UL>
+  </LI>
+  </UL>
+  <Note><b>Technical note:</b>
+  <p>Internally all regular expressions of a rule with conditions are being joined into
+  a single regular expression of a kind:</p>
+  <pre>(?:Condition1RegExp)\n(?:Condition2RegExp)\n...\n(?:ruleRegExp)</pre>
+  <p>Then this single expression is being matched against a text string of combined headers.
+  Missing headers and variables are considered as empty strings. <font color="red">Because special
+  characters <b>^</b> and <b>$</b> correspond to the beginning and the end of the combined text string
+  (and not to the beginning and the end of an individual header string)
+  theirs usage in a rule with conditions may result in a behavior completely different from the
+  expected one. So, it is highly recommended to avoid usage of <b>^</b> and <b>$</b> markers
+  in rules with conditions.</font>
+  </font></p>
+  </Note>
+    <H3><A name="RewriteRule"></A>RewriteRule directive</H3>
+    <TABLE class="note" width="98%">
+      <TBODY>
+        <TR>
+          <TD><B>Syntax:&nbsp;RewriteRule
+            </B><I>Pattern FormatString
+              [Flags]</I></TD></TR></TBODY></TABLE>
+    <P>The <I>RewriteRule</I> directive is
+      the real rewriting workhorse. The directive can occur more than once. Each
+      directive defines one single rewriting rule. The <STRONG>definition order</STRONG>
+      of these rules is <STRONG>important</STRONG>, because this order is used when
+      applying the rules at run-time.</P>
+
+  <UL>
+  <LI><B>Pattern</B>
+      <P>Specifies regular expression that will be matched against Request-URI.
+    See <A href="#RegexSynt">regular expression syntax</A> section for more
+    information.</P>
+  <LI><B>FormatString</B>
+      <P>Specifies format string that will generate new URI. See <A href="#FormStrSynt">format
+    string syntax</A> section for more information.</P>
+  <LI><B>[Flags]</B>
+      <P><EM>Flags</EM> is a comma-separated list of the following flags:
+    <UL>
+    <LI><B>I</B> (<B>i</B>gnore case)
+      <P>Indicates that characters are matched regardless of a case. This flag
+      affects <I>RewriteRule</I> directive and all corresponding <I>RewriteCond</I>
+      directives.</P>
+    <LI><B>F</B> (<B>F</B>orbidden)
+      <P>Stops the rewriting process and sends 404 Not Found response (Not 403 Forbidden!. And this behaviour corresponds to the IIS 6 behaviour)
+      to a client. Note that FormatString is useless in this case and could be
+      set to any non-empty string.</P>
+    <LI><B>L</B> (<B>l</B>ast rule)
+      <P>Stop the rewriting process here and don't apply any more rewriting
+      rules. Use this flag to prevent the currently rewritten URI from being
+      rewritten further by following rules.</P>
+    <LI><B>N</B> (<B>N</B>ext iteration)
+      <P>Forces rewriting engine to modify rule's target and restart rules
+      checking from the beginning (all modifications are saved). Number
+      of restarts is limited by the value specified in the RepeatLimit directive.
+      If this number is exceeded N flag will be simply ignored. </P>
+    <LI><B>NS</B> (<B>N</B>ext iteration of the <B>s</B>ame rule)
+      <P>Works like the N flag but restarts rules processing from the same rule (i.e. forces repeat of the
+      rule application). Maximum number of single rule iterations is given by the RepeatLimit directive.
+      But a number of single rule repeats does not count for the global number of repeats
+      (i.e. repeats limit for a number of iterations caused by N flag is independent
+      of a number of repeats caused by NS).
+      </P>
+    <LI><B>P</B> (force <STRONG>p</STRONG>roxy)
+      <P>Forces the result URI to be internally forced as a proxy request
+      and immediately (i.e., rewriting rule processing stops here) put through
+      the ISAPI extension that handles proxy requests. You have to make
+      sure that the substitution string is a valid URI including protocol,
+      host etc. or proxy will return an error.</P>
+
+    <LI><B>R</B> (explicit <B>r</B>edirect)
+      <P>Force server to send immediate response to client with redirect instruction,
+      providing result URI as a new location. Redirect rule is always the
+      last rule.</P>
+    <LI><B>RP</B> (permanent redirect)
+      <P>Almost the same as the [R] flag but issues 301 (moved permanently) HTTP status code instead of
+      302 (moved temporary).</P></LI>
+    <LI><STRONG>U</STRONG>&nbsp;(<STRONG>U</STRONG>nmangle Log)
+      <P>Log the URL as it was originally requested and not as the URL was
+      rewritten.</P>
+    </LI>
+    <LI><STRONG>O</STRONG>&nbsp;(n<STRONG>O</STRONG>rmalize)
+      <P>Normalizes string before processing. Normalization includes removing
+      of an URL-encoding, illegal characters, etc. <font color="red">Also,
+      IIS normalization of an URI completely removes query string. So, normalization should
+      not be used if query string is needed.</font> This flag is useful with
+      URLs and URL-encoded headers.</P>
+    </LI>
+    <LI><STRONG>CL</STRONG>&nbsp;(<STRONG>C</STRONG>ase <STRONG>L</STRONG>ower)
+      <P>Changes case of a format result to lower.</P>
+    </LI>
+    <LI><STRONG>CU</STRONG>&nbsp;(<STRONG>C</STRONG>ase <STRONG>U</STRONG>pper)
+      <P>Changes case of a format result to upper.</P>
+    </LI>
+    </UL>
+  </LI>
+  </UL>
+    <H3><A name="RewriteHeader"></A>RewriteHeader directive</H3>
+    <TABLE class="note" id="Table1" width="98%">
+      <TBODY>
+        <TR>
+          <TD><B>Syntax:&nbsp;RewriteHeader&nbsp;&nbsp;</B><I>HeaderName&nbsp;&nbsp;Pattern&nbsp;&nbsp;FormatString&nbsp;&nbsp;[Flags]</I></TD></TR></TBODY></TABLE>
+    <P>The <I>RewriteHeader</I> directive
+      is more general variant of <EM>RewriteRule </EM>directive
+      and it is designed to rewrite not only the URL part of client request, but any
+      HTTP header. This directive can be used to rewrite, create or delete any HTTP
+      headers, or even change method of the client request.</P>
+
+  <UL>
+  <LI><STRONG>HeaderName</STRONG>&nbsp;
+    <P>Specifies a HTTP header that will be rewritten. Possible values are the
+    same as for the <EM>TestVerb </EM>parameter in the <EM>RewriteCond </EM>directive.
+    Thus, <EM>RewriteRule </EM>directive is a synonym to the <EM>RewriteHeader
+    </EM><STRONG>URL</STRONG><EM> Pattern Format [Flags]</EM></P>
+  <LI><B>Pattern</B>
+    <P>Specifies regular expression that will be matched against specified header.
+    See <A href="#RegexSynt">regular expression syntax</A> section for more
+    information.</P>
+  <LI><B>FormatString</B>
+    <P>Specifies format string that will generate new header value. See <A href="#FormStrSynt">format
+    string syntax</A> section for more information.</P>
+  <LI><B>[Flags]</B>
+    <P><EM>Flags</EM> is a comma-separated list of the following flags:
+    <UL>
+    <LI><B>I</B> (<B>i</B>gnore case)
+      <P>Indicates that characters are matched regardless of a case. This flag
+      affects <I>RewriteHeader</I> directive and all corresponding <I>RewriteCond</I>
+      directives.</P>
+    <LI><B>F</B> (<B>F</B>orbidden)
+      <P>Stops the rewriting process and sends 404 Not Found response (Not 403 Forbidden!. And this behaviour corresponds to the IIS 6 behaviour)
+      to a client. Note that FormatString is useless in this case and could be
+      set to any non-empty string.</P>
+    <LI><B>L</B> (<B>l</B>ast rule)
+      <P>Stop the rewriting process here and don't apply any more rewriting
+      rules.</P>
+    <LI><B>N</B> (<B>N</B>ext iteration)
+      <P>Forces rewriting engine to modify rule's target and restart rule
+      checking from the beginning (all modifications are saved). Number
+      of restarts is limited by the value specified in the RepeatLimit directive.
+      If this number is exceeded N flag will be simply ignored. </P>
+    <LI><B>NS</B> (<B>N</B>ext iteration of the <B>s</B>ame rule)
+      <P>Works like the N flag but restarts rules processing from the same rule (i.e. forces repeat of the
+      rule application). Maximum number of single rule iterations is given by the RepeatLimit directive.
+      But a number of single rule repeats does not count for the global number of repeats
+      (i.e. repeats limit for a number of iterations caused by N flag is independent
+      of a number of repeats caused by NS).
+      </P>
+    <LI><B>R</B> (explicit <B>r</B>edirect)
+      <P>Force server to send immediate response to client with redirect instruction,
+      providing&nbsp;new URI as a new location. Redirect rule is always
+      the last rule.</P>
+    </LI>
+    <LI><B>RP</B> (permanent redirect)
+      <P>Almost the same as the [R] flag but issues 301 (moved permanently) HTTP status code instead of
+      302 (moved temporary).</P></LI>
+    <LI><STRONG>U</STRONG>&nbsp;(<STRONG>U</STRONG>nmangle Log)
+      <P>Log the URL as it was originally requested and not as the URL was
+      rewritten.</P>
+    </LI>
+    <LI><STRONG>O</STRONG>&nbsp;(n<STRONG>O</STRONG>rmalize)
+      <P>Normalizes string before processing. Normalization includes removing
+      of an URL-encoding, illegal characters, etc. <font color="red">Also,
+      IIS normalization of an URI completely removes query string. So, normalization should
+      not be used if query string is needed.</font> This flag is useful with
+      URLs and URL-encoded headers.</P>
+    </LI>
+    <LI><STRONG>CL</STRONG>&nbsp;(<STRONG>C</STRONG>ase <STRONG>L</STRONG>ower)
+      <P>Changes case of a format result to lower.</P>
+    </LI>
+    <LI><STRONG>CU</STRONG>&nbsp;(<STRONG>C</STRONG>ase <STRONG>U</STRONG>pper)
+      <P>Changes case of a format result to upper.</P>
+    </LI>
+    </UL>
+  </LI></UL>
+
+  <P>To remove header, format string pattern should generate an empty string.
+  For example this rule will remove user agent information from the client request:</P>
+    <TABLE class="code" id="Table19" width="98%">
+        <TR>
+          <TD><PRE>RewriteHeader User-Agent: .* $1</PRE></TD></TR></TABLE>
+  <P>And this rule will add Old-URL header to the request, providing a Request-URL
+  as a header value:</P>
+      <TABLE class="code" id="Table20" width="98%">
+        <TR>
+          <TD><PRE>RewriteCond URL (.*)<BR>RewriteHeader Old-URL: ^$ $1</PRE></TD></TR></TABLE>
+
+  <P>This last example will direct all WebDAV requests to the /webdav.asp script
+  by changing request method:</P>
+    <TABLE class="code" id="Table21" width="98%">
+        <TR>
+          <TD><PRE>RewriteCond METHOD OPTIONS<BR>RewriteRule (.*) /webdav.asp?$1<BR>RewriteHeader METHOD OPTIONS GET</PRE></TD></TR></TABLE></P>
+  <H3><A name="RewriteProxy" id="RewriteProxy"></A>RewriteProxy directive</H3>
+  <TABLE class="note" width="98%">
+  <TBODY>
+    <TR>
+    <TD><B>Syntax: RewriteProxy </B><I>Pattern FormatString [Flags]</I></TD>
+    </TR>
+  </TBODY>
+  </TABLE>
+  <P>Forces the result URI to be internally forced as a proxy request and immediately
+  (i.e., rewriting rule processing stops here) put through the ISAPI extension
+  that handles proxy requests. This allows IIS to act as a proxy server and reroute
+  requests to other sites and servers. </P>
+  <UL>
+  <LI><B>Pattern</B>
+    <P>Specifies regular expression that will be matched against Request-URI.
+    See <A href="#RegexSynt">regular expression syntax</A> section for more
+    information.</P>
+  <LI><B>FormatString</B>
+    <P>Specifies format string that will generate new URI. See <A href="#FormStrSynt">format
+    string syntax</A> section for more information. For this directive FormatString
+    should generate a valid URL (including protocol, host, etc.) or ISAPI_Rewrite
+    proxy module will return an error.</P>
+  <LI><B>[Flags]</B>
+    <P><EM>Flags</EM> is a comma-separated list of the following flags:
+    <UL>
+    <LI><STRONG>D</STRONG>&nbsp;(<STRONG>D</STRONG>elegate security)
+      <P>Proxy module will try to login on the remote server with the credentials
+      of currently impersonated user. In case of built-in IIS authentication
+      it will be credentials of the user that sends original request. Read
+      the following <A href="#proxyAuth">chapter</a> for details.</P>
+    </LI>
+    <LI><STRONG>C</STRONG>&nbsp;(use <STRONG>C</STRONG>redentials)
+      <P>Proxy module will try to login on a remote server with the credentials
+      specified in the URL or basic authentication headers. With this
+      flag you can use http://user:password@host.com/path/ syntax for the
+      URLs. Read the following <A href="#proxyAuth">chapter</a> for details.</P>
+    </LI>
+    <LI><B>F</B> (<B>F</B>ollow redirects)
+          <P>By default ISAPI_Rewrite will try to map redirect instructions (301, 302, etc.)
+            returned by a remote server into the local server namespace. If remote
+            server returns a redirect pointing to the location somewhere on that
+            server, ISAPI_Rewrite will modify this redirect instruction to point
+            to the local server name. This will hide the real (internal) server
+            name from a user.</P>
+          <P><strong>F</strong> flag could be used to force the proxy module to internally
+            follow redirect instructions returned from a remote server. Use
+            this flag if you don't need to receive redirects from remote server
+            at all. <font color="red">Use this flag cautiously. It could break some server
+            applications. For example, .NET WinForms authentication sets client cookie during
+            a redirect. If proxy will be instructed to handle this redirect cookie will be lost
+            and user will never be authenticated.</font>
+            </P>
+        </LI>
+    <LI><B>I</B> (<B>i</B>gnore case)
+      <P>Indicates that characters are matched regardless of a case. This flag
+      affects <I>RewriteProxy</I> directive and all corresponding <I>RewriteCond</I>
+      directives.</P>
+    <LI><STRONG>U</STRONG>&nbsp;(<STRONG>U</STRONG>nmangle Log)
+      <P>Log the URL as it was originally requested and not as the URL was
+      rewritten.</P>
+    <LI><STRONG>O</STRONG>&nbsp;(n<STRONG>O</STRONG>rmalize)
+      <P>Normalizes string before processing. Normalization includes removing
+      of an URL-encoding, illegal characters, etc. <font color="red">Also,
+      IIS normalization of an URI completely removes query string. So, normalization should
+      not be used if query string is needed.</font> This flag is useful with
+      URLs and URL-encoded headers.</P>
+    </LI>
+    <LI><STRONG>H</STRONG>&nbsp;(preserve <STRONG>H</STRONG>ost)
+      <P>Proxy module will use current Host header for a request to a remote server. Without this flag
+      proxy will compose Host header from a host name and a port of a remote server.
+      </P>
+    </LI>
+    <LI><STRONG>A</STRONG>&nbsp;(<STRONG>A</STRONG>dd authentication headers)
+      <P>Allows passing of an authentication information from proxy to an internal server when
+      client authentication against a proxy server is used. Proxy module will append headers
+      <TABLE class="code" id="Table20" width="98%">
+        <TR><TD>
+<PRE>X-ISRW-Proxy-AUTH-TYPE,<br>X-ISRW-Proxy-AUTH-USER,<br>X-ISRW-Proxy-LOGON-USER,<br>X-ISRW-Proxy-REMOTE-USER<br></PRE>
+        </TD></TR></TABLE>
+      corresponding to server variables
+      <TABLE class="code" id="Table20" width="98%">
+        <TR><TD>
+<PRE>AUTH_TYPE,<br>AUTH_USER,<br>LOGON_USER,<br>REMOTE_USER<br></PRE>
+        </TD></TR></TABLE>
+        to a request sent to a proxied server.
+      </P>
+    </LI>
+    </UL>
+  </LI>
+  </UL>
+  <H3><A name="proxyAuth"></A>Authentication schemes available for proxy.</H3>
+  <p>IIS architecture and proxy module implementation imposes definite restrictions on
+  authentication schemes that could be used with the proxy. Available schemes are described below:
+  <UL>
+  <LI><b>Anonymous - Anonymous</b> - no authentication both between a client and a proxy and between a
+  proxy and a remote server. Both servers (proxy and remote) should be configured to allow
+  anonymous authentication. Neither C nor D proxy options should be specified.
+  </LI>
+  <LI><b>Anonymous - Basic</b> - no authentication between a client and a proxy. But a remote server
+  requires basic authentication. Two possibilities exist there:
+           <UL>
+           <LI>User authenticates directly against a remote server. Proxy server should be
+           configured for anonymous authentication <b>ONLY</b>. Having any other authentication
+           enabled will cause authentication failure. Remote server should allow basic
+           authentication. Neither C nor D proxy options should be specified.
+           </LI>
+           <LI>User does not authenticate against a remote server. But a proxy authenticates
+           against a remote server with explicit credentials. Login credentials should be
+           explicitly specified in a proxied URL. C flag should be specified, D flag should not be
+           set.
+           </LI>
+           </UL>
+  </LI>
+  <LI><b>Anonymous - Windows Integrated</b> - user does not authenticate against a remote server.
+  But a proxy authenticates against a remote server with a credentials of IIS worker process.
+  IIS worker process on the proxy server should run under an account whose credentials will be used
+  for authentication. Account should have network access. Remote server should allow Windows
+  Integrated Authentication. C flag should not be specified. D flag should be specified if a remote
+  server is not in an intranet.
+  </LI>
+  <LI><b>Basic - Basic</b> - user authenticates against a proxy server and proxy server authenticates
+  against a remote server with user's credentials. Both servers should allow basic authentication.
+  C flag should be specified. D flag should not be specified.
+  </LI>
+  <LI><b>Basic - Windows Integrated</b> - user authenticates against a proxy server and proxy server authenticates
+  against a remote server with user's credentials. Proxy server should allow basic authentication.
+  Remote server should allow Integrated authentication.
+  Either C or D flag should be specified (C is recommended).
+  </LI>
+  <LI><b>NTLM - NTLM</b> - user authenticates against a proxy application on a server and proxy application
+  authenticates against another application <b>on the same server</b> (there is no way to delegate
+  NTLM authentication to another server).
+  C flag should not be specified. D flag should be specified.
+  </LI>
+  <LI>
+  <b>Kerberos - Kerberos</b> - user authenticates against proxy server and proxy server in turn
+  authenticates against remote server using user-supplied credentials.
+  To implement this configuration the following requirements have to be satisfied:
+  <OL>
+  <LI><font color="red">Client computer, Proxy server and Proxied server should belong to the same Active directory domain
+  or trusted AD domains (This requirement makes this scheme almost useless for internet applications.
+  Although MS Article
+  <a href="http://www.microsoft.com/resources/documentation/Windows/XP/all/reskit/en-us/Default.asp?url=/resources/documentation/Windows/XP/all/reskit/en-us/prdp_log_tjil.asp">
+  Kerberos Interoperability</a> points to a possibility of configuring Kerberos authentication
+  for a non-domain-member client computer, configuration steps needed for that seem to be too
+  complex for an internet applications).</font></LI>
+  <LI>Probably you will have to change Application Pool identity for the proxy web application to
+  a domain user (You could read article
+  <a href="http://www.microsoft.com/technet/prodtechnol/WindowsServer2003/Library/IIS/76be66e2-1db1-432e-95be-14ff59c2ec75.mspx">
+  Configuring a Worker Process Identity Using a Configurable Account (IIS 6.0)
+  </a> to understand steps required to create a custom account).
+  Although it looks like Network Service identity should work
+  according to the MSDN articles, we were unable to make Kerberos working between a proxy and
+  a proxied server with this identity. If you will set a custom identity, you will need to configure SPNs for it.
+  SPNs configuration is described in the
+  <a href="http://support.microsoft.com/default.aspx?scid=kb;en-us;871179">MS KB Article
+  871179</a></LI>.
+  <LI>Application pool account should be marked as "Trusted for delegation". Otherwise, if the Local System
+  account is used as an Application pool identity, proxy server should be marked as "Trusted for delegation".
+  At the same time client account should not be marked as "Sensitive to delegation".
+  Detailed information on accounts configuration could be found in the article
+  <a href="http://msdn.microsoft.com/library/default.asp?url=/library/en-us/dnnetsec/html/SecNetHT05.asp">
+  How To: Implement Kerberos Delegation for Windows 2000</a>.
+  </LI>
+  <LI>If you are going to access proxy server by name, which is different from its NetBIOS and AD domain names,
+  you will have to register SPN for that name. You could read how to configure additional SPNs in
+  the article <a href="http://support.microsoft.com/default.aspx?scid=kb;en-us;326985">HOW TO: Troubleshoot Kerberos-Related Issues in IIS</a>
+  </LI>
+  <LI>C flag should not be specified in the ISAPI_Rewrite rule. D flag should be specified.</LI>
+  </OL>
+  If you have problems with this configuration, please, read
+  <a href="http://support.microsoft.com/default.aspx?scid=kb;en-us;326985">
+  HOW TO: Troubleshoot Kerberos-Related Issues in IIS</a> article before contacting support.
+  </LI>
+  <LI><b>NTLM - Kerberos</b> - user authenticates against a proxy server with NTLM authentication
+  and proxy server in turn authenticates against remote server with Kerberos. This scheme has
+  almost the same requirements as <b>Kerberos - Kerberos</b> scheme. However, it allows any internet client
+  capable to perform NTLM authentication to access internal server through a proxy. This scheme
+  could be implemented only in the AD domain running in the Windows 2003 native mode.
+  And Application pool account should be configured to allow delegation of all authentication
+  protocols to http service on the proxied server.
+  </LI>
+  </UL></p>
+
+  <H3><A name="CacheClRate"></A>CacheClockRate directive</H3>
+  <TABLE class="note" width="98%">
+  <TBODY>
+    <TR>
+    <TD><B>Syntax:&nbsp;CacheClockRate</B> <I>Interval</I></TD>
+    </TR>
+  </TBODY>
+  </TABLE>
+  <P>This directive can appear only in global configuration context. If this directive
+  is found in a site-level context it will be ignored and an error message will
+  be written to the httpd.parse.errors file.</P>
+  <P>ISAPI_Rewrite caches every configuration file at first time it is loaded.
+  Using this directive you can specify period of inactivity of particular site
+  when its configuration will be purged from cache. By setting this parameter
+  big enough you can force ISAPI_Rewrite to never recycle its cache. Remember
+  that any changes to configuration files update cache immediately after the
+  next request regardless of this interval.</P>
+  <UL>
+  <LI><B>Interval</B>
+    <P>Specifies time of inactivity (in seconds) when particular configuration
+    will be purged from cache. The default value is 3600 (1 hour).</P>
+  </LI>
+  </UL>
+  <H3><A name="EDConfig" id="EDConfig"></A>EnableConfig and DisableConfig directives</H3>
+  <TABLE class="note" width="98%">
+  <TBODY>
+    <TR>
+    <TD><B>Syntax:<BR>
+      EnableConfig</B> [<I>SiteID|&quot;Site name&quot;</I>]<BR> <B>DisableConfig</B>
+      [<I>SiteID|&quot;Site name&quot;</I>]</TD>
+    </TR>
+  </TBODY>
+  </TABLE>
+  <P>Enables or disables site-level configurations for a selected site or changes
+  the defaults. By default site-level configurations are enabled. This directive
+  can appear only in global configuration context. If found in a site-level
+  context it will be ignored and an error message will be written to the httpd.parse.errors
+  file.</P>
+  <UL>
+  <LI><B>SiteID</B>
+    <P>Numeric metabase identifier of a site</P>
+  </LI>
+  </UL>
+  <UL>
+  <LI><B>Site name</B>
+    <P>Name of the site as it appears in the IIS console.</P>
+  </LI>
+  </UL>
+  <P>If used without parameter this directives turn default settings to enable/disable
+  configuration processing.</P>
+  <P>Example:</P>
+  <P>The following will enable configuration only for the site with ID=1 (typically
+  it is Default Web Site) and a site named &quot;My site&quot;:</P>
+  <TABLE class="code" width="98%">
+  <TBODY>
+    <TR>
+    <TD><PRE>DisableConfig
+EnableConfig 1
+EnableConfig "My site"</PRE></TD>
+    </TR>
+  </TBODY>
+  </TABLE>
+  <P>In the following example configurations are enabled for the site named &quot;Some
+  site&quot; because explicit settings override the default settings.</P>
+  <TABLE class="code" width="98%">
+  <TBODY>
+    <TR>
+    <TD><PRE>EnableConfig "Some site"
+DisableConfig</PRE></TD>
+    </TR>
+  </TBODY>
+  </TABLE>
+  <H3><A name="EDRewrite" id="EDRewrite"></A>EnableRewrite and DisableRewrite
+  directives </H3>
+  <TABLE class="note" width="98%">
+  <TBODY>
+    <TR>
+    <TD><B>Syntax:<BR>
+      EnableRewrite</B> [<I>SiteID|&quot;Site name&quot;</I>]<BR> <B>DisableRewrite</B>
+      [<I>SiteID|&quot;Site name&quot;</I>]</TD>
+    </TR>
+  </TBODY>
+  </TABLE>
+  <P>Enables or disables rewriting for a selected site or changes the defaults.
+  By default rewriting is enabled. This directive can appear only in global
+  configuration context. If found in a site-level context it will be ignored
+  and an error message will be written to the httpd.parse.errors file.</P>
+  <UL>
+  <LI><B>SiteID</B>
+    <P>Numeric metabase identifier of a site</P>
+  </LI>
+  </UL>
+  <UL>
+  <LI><B>Site name</B>
+    <P>Name of the site as it appears in the IIS console.</P>
+  </LI>
+  </UL>
+  If used without parameter this directives enable or disable rewriting at all.
+  <H3><A name="RepeatLimit"></A>RepeatLimit directive</H3>
+  <TABLE class="note" width="98%">
+  <TBODY>
+    <TR>
+    <TD><B>Syntax:&nbsp;RepeatLimit</B> <I>Limit</I></TD>
+    </TR>
+  </TBODY>
+  </TABLE>
+  <P>This directive could appear both in global and in site-level configuration
+  files. If it will appear in the global configuration file it will change the
+  global limit for all sites. If this directive will appear in a site-level
+  configuration file it will change a limit for this site only and this limit
+  could not exceed the global limit. </P>
+  <P>ISAPI_Rewrite allows loops while processing rules (see the description of
+  the N flag of the RewriteRule and RewriteHeader directives). This directive
+  allows limiting the maximum number of possible loops. It could be set to zero
+  or one to disable looping.</P>
+  <UL>
+  <LI><B>Limit</B>
+    <P>Specifies a maximum number of allowed loops. The default value is 32.
+    </P>
+  </LI>
+  </UL>
+  <H3><A name="RFStyle"></A>RFStyle directive</H3>
+    <TABLE class="note" id="Table1" width="98%">
+      <TBODY>
+        <TR>
+          <TD><B>Syntax:&nbsp;RFStyle&nbsp;&nbsp;</B><I>Old | New</I></TD></TR></TBODY></TABLE>
+    <P>The RFStyle directive allows control over redirect and forbidden responses style in a Full version
+    of ISAPI_Rewrite. The default <B>Old</B> style is to issue those responses directly from the filter. This
+    method is fast and requires no additional configuration. But in this case original requests could not be logged by IIS.
+    <B>New</B> style forces filter to issue redirect and forbidden responses through a proxy module. This
+    technique makes possible to log redirected and forbidden requests. But this method would require
+    manual configuration in many cases. Details of the proxy module configuration could be found in the
+    following chapter.</P>
+    <H3><A name="ConfigUtility" ></A>Configuration Utility</H3>
+    <p>ISAPI_Rewrite Full includes configuration utility (which could be launched from the ISAPI_Rewrite program
+    group). It allows you to view trial status and enter a registration code (if the product was not
+    registered during the installation) and modify some product options related to the proxy module
+    operation. Utility is organized as a property sheet with three property pages:
+    <UL>
+      <LI><B>Trial</B> page.
+        <P>This page will be shown only if you have installed ISAPI_Rewrite in a trial mode. It allows you
+        to view product's trial status and to enter a registration code.</P>
+      </LI>
+      <LI><B>Settings</B> page.
+        <P>This page contains edit boxes and checkboxes for the following parameters:</P>
+        <UL>
+          <LI><B>Helper URL</B>
+             <P>This parameter affects a way of communication between the filter and the proxy module.
+             This could be either a file extension prefixed with a dot (like .isrwhlp) or an absolute URI
+             (like /isrwhlp/rwhelper.dll).
+             </P>
+             <P>
+             In the first case that extension will be appended to the original request URI and
+             proxy module will be invoked via a script map. The default extension ".isrwhlp" is added
+             to the global script map during the installation process. If you have changed this
+             extension or if your application does not inherit global script map settings you
+             should manually add a required entry to the script map. It should have the following
+             parameters:
+             <TABLE>
+                <TR><TD>Executable:</TD><TD>An absolute path to the rwhelper.dll in the <B>short form</B></TD></TR>
+                <TR><TD>Extension:</TD><TD>Desired extension (.isrwhlp is default)</TD></TR>
+                <TR><TD>Verbs radio button:</TD><TD>All Verbs</TD></TR>
+                <TR><TD>Script engine checkbox:</TD><TD>Checked</TD></TR>
+                <TR><TD>Check that file exists checkbox:</TD><TD>Unchecked</TD></TR>
+             </TABLE>
+             </p>
+             <P>We have created a WSH script proxycfg.vbs which could simplify helper extension
+             registration in a script maps. It's located in the ISAPI_Rewrite installation folder and could be run
+             from command line in this way:
+             <TABLE class="note" id="Table1" width="98%">
+             <TBODY>
+             <TR>
+             <TD><B>cscript proxycfg.vbs [-r] [MetabasePath]</TD></TR></TBODY></TABLE>
+             <UL>
+             <LI>Optional <B>-r</B> parameter forces script to register extension in the metabase recursively.</LI>
+             <LI>Optional <B>MetabasePath</B> parameter allows specification of the first metabase key
+             to process. By default it is "/localhost/W3SVC".</LI></UL>
+             </p>
+             <P>To register extension in all existing script maps you could invoke script with the
+             following command string:<BR>
+             <TABLE class="note" id="Table1" width="98%">
+             <TBODY>
+             <TR>
+             <TD><B>cscript proxycfg.vbs -r</TD></TR></TBODY></TABLE>
+             </P>
+             <P>In the second case (absolute URI) you should provide an URI like
+             /vfolder/rwhelper.dll for a value of the 'Helper URL'. You should also map
+             an ISAPI_Rewrite's installation folder as a chosen virtual folder (/vfolder)
+             to an each site which would use proxying and enable executables launching for these
+             virtual folders.
+             </P>
+             <P><STRONG>Note: As it was reported by our customers, IIS 5 (and may be IIS 4) has a problem
+             with a long directory names in the Helper URL. So, it is strongly recommended to use short
+             directory names.</STRONG></P>
+             <P>Both methods have advantages and drawbacks. The second one allows you to isolate proxy
+             application from other applications but this method could fail under IIS6.
+             The first one should work fine under IIS6 but the proxy module will be invoked in a context
+             of an application targeted by an original request URL.</P>
+          </LI>
+          <LI><B>Worker threads limit</B>
+          <P>This parameter limits maximum number of the worker threads in the proxy extension threads
+          pool. Default value 0 means that this limit will be equal to the number of processors
+          multiplied by 2.</P>
+          </LI>
+          <LI><B>Active threads limit</B>
+          <P>This parameter limits maximum number of the concurrently running worker threads. This
+          value could not be greater than "Worker threads limit". Default value 0 means that this
+          limit will be equal to the number of processors.</P>
+          </LI>
+          <LI><B>Queue size</B>
+          <P>This parameter defines the maximum number of request which could be queued for processing by
+          the single instance of the proxy module. You could increase this parameter if you will ever
+          see "Queue timeout expired" message in the Application event log.</P>
+          </LI>
+          <LI><B>Queue timeout</B>
+          <P>This parameter defines the maximum wait time for placing new request into the internal
+          request queue. It becomes actual when the number of queued request reaches its maximum
+          defined by the "Queue size" parameter.  You could increase this parameter if you will ever
+          see "Queue timeout expired" message in the Application event log.</P>
+          </LI>
+          <LI><B>Connect timeout</B>
+          <P>Specifies connect timeout for the proxy module in milliseconds. Default value
+          is 60000 (60 sec).</P></LI>
+          <LI><B>Send timeout</B>
+          <P>Specifies send timeout for the proxy module in milliseconds. Default value
+          is 30000 (30 sec).</P></LI>
+          <LI><B>Receive timeout</B>
+          <P>Specifies receive timeout for the proxy module in milliseconds. Default value
+          is 30000 (30 sec).</P></LI>
+          <LI><B>Suppress error details</B>
+          <P>Specifies that proxy module should not send detailed error message to a client.
+          Default value is true.</P></LI>
+        </UL>
+      </LI>
+      <LI><B>About</B> page.
+        <P>It contains copyright information and a link to the ISAPI_Rewrite's web site.</P>
+      </LI>
+    </UL></p>
+
+    <H2><A name="RegexSynt">Regular expression syntax</A></H2>
+    <p>This section gives the brief
+    description of the regular expression syntax used by ISAPI_Rewrite. Complete description of the
+    syntax could be found in the
+    <a href="http://www.boost.org/libs/regex/doc/syntax_perl.html">Boost.Regex documentation</a>.</p>
+
+  <H3><A name="rxLiterals"></A>Literals</H3>
+    <P>All characters are literals except: ".", "*", "?", "+",
+      "(", ")", "{", "}", "[", "]", "^" and "$". These characters are literals when
+      preceded by a "\". A literal is a character that matches itself.</P>
+    <H3><A name="rxWildcard"></A>Wildcard</H3>
+    <P>The dot character "." matches any single character
+      except null character and newline character.&nbsp;</P>
+    <H3><A name="rxRepeats"></A>Repeats</H3>
+    <P>A repeat is an expression that is repeated an arbitrary
+      number of times. An expression followed by "*" can be repeated any number of
+      times including zero. An expression followed by "+" can be repeated any number
+      of times, but at least once. An expression followed by "?" may be repeated zero
+      or one times only. When it is necessary to specify the minimum and maximum
+      number of repeats explicitly, the bounds operator "{}" may be used, thus "a{2}"
+      is the letter "a" repeated exactly twice, "a{2,4}" represents the letter "a"
+      repeated between 2 and 4 times, and "a{2,}" represents the letter "a" repeated
+      at least twice with no upper limit. Note that there must be no white-space
+      inside the {}, and there is no upper limit on the values of the lower and upper
+      bounds. All repeat expressions refer to the shortest possible previous
+      sub-expression: a single character; a character set, or a sub-expression
+      grouped
+      with "()" for example.</P>
+    <P>Examples:</P>
+    <UL>
+      <LI>"ba*" will match all of "b", "ba", "baaa" etc.
+      <LI>"ba+" will match "ba" or "baaaa" for example but not
+      "b".
+      <LI>"ba?" will match "b" or "ba".
+      <LI>"ba{2,4}" will match "baa", "baaa" and "baaaa".
+      </LI></UL>
+    <H3><A name="rxNGRepeats"></A>Non-greedy
+      repeats</H3>
+    <P>Non-greedy repeats are possible by appending a '?' after
+      the repeat; a non-greedy repeat is one which will match the <I>shortest</I> possible
+      string.</P>
+    <P>For example to match html tag pairs one could use
+      something like:</P>
+    <P>"&lt;\s*tagname[^&gt;]*&gt;(.*?)&lt;\s*/tagname\s*&gt;"</P>
+    <P>In this case $1 will contain the text between the tag
+      pairs, and will be the shortest possible matching string.&nbsp;</P>
+    <H3><A name="rxParenthesis"></A>Parenthesis</H3>
+    <P>Parentheses serve two purposes, to group items together
+      into a sub-expression, and to mark what generated the match. For example the
+      expression "(ab)*" would match all of the string "ababab". All sub matches
+      marked by parenthesis can be&nbsp;back referenced using \N or $N syntax. It is
+      permissible for sub-expressions to match null strings. Sub-expressions are
+      indexed from left to right starting from 1, sub-expression 0 is the whole
+      expression.</P>
+    <H3><A name="rxNMParenthesis"></A>Non-Marking Parenthesis</H3>
+    <P>Sometimes you need to group sub-expressions with
+      parenthesis, but don't want the parenthesis to spit out another marked
+      sub-expression, in this case a non-marking parenthesis (?:expression) can be
+      used. For example the following expression creates no sub-expressions:</P>
+    <P>"(?:abc)*"&nbsp;</P>
+    <H3><A name="rxAlt"></A>Alternatives</H3>
+    <P>Alternatives occur when the expression can match either
+      one sub-expression or another, each alternative is separated by a "|". Each
+      alternative is the largest possible previous sub-expression; this is the
+      opposite behavior from repetition operators.</P>
+    <P>Examples:</P>
+    <UL>
+      <LI>"a(b|c)" could match "ab" or "ac".
+      <LI>"abc|def" could match "abc" or "def".&nbsp; </LI></UL>
+    <H3><A name="rxSets"></A>Sets</H3>
+    <P>A set is a set of characters that can match any single
+      character that is a member of the set. Sets are delimited by "[" and "]" and
+      can
+      contain literals, character ranges, character classes, collating elements and
+      equivalence classes. Set declarations that start with "^" contain the
+      compliment
+      of the elements that follow.</P>
+    <P>Examples:</P>
+    <P><I>Character literals:</I></P>
+    <UL>
+      <LI>"[abc]" will match either of "a", "b", or "c".
+      <LI>"[^abc] will match any character other than "a", "b",
+        or "c". </LI></UL>
+    <P><I>Character ranges:</I></P>
+    <UL>
+      <LI>"[a-z]" will match any character in the range "a" to
+      "z".
+      <LI>"[^A-Z]" will match any character other than those in
+        the range "A" to "Z". </LI></UL>
+    <H3><A name="rxCharClasses"></A>Character classes</H3>
+    <P>Character classes are denoted using the syntax
+      "[:classname:]" within a set declaration, for example "[[:space:]]" is the set
+      of all whitespace characters. The available character classes are:&nbsp;</P>
+    <TABLE id="Table2" cellSpacing="2" cellPadding="7" border="0">
+      <TBODY>
+        <TR>
+          <TD>alnum</TD>
+          <TD>Any alpha numeric character.</TD></TR>
+        <TR>
+          <TD>alpha</TD>
+          <TD>Any alphabetical character a-z and A-Z. Other
+            characters may also be included depending upon the locale.</TD></TR>
+        <TR>
+          <TD>blank</TD>
+          <TD>Any blank character, either a space or a
+            tab.</TD></TR>
+        <TR>
+          <TD>cntrl</TD>
+          <TD>Any control character.</TD></TR>
+        <TR>
+          <TD>digit</TD>
+          <TD>Any digit 0-9.</TD></TR>
+        <TR>
+          <TD>graph</TD>
+          <TD>Any graphical character.</TD></TR>
+        <TR>
+          <TD>lower</TD>
+          <TD>Any lower case character a-z. Other characters
+            may also be included depending upon the locale.</TD></TR>
+        <TR>
+          <TD>print</TD>
+          <TD>Any printable character.</TD></TR>
+        <TR>
+          <TD>punct</TD>
+          <TD>Any punctuation character.</TD></TR>
+        <TR>
+          <TD>space</TD>
+          <TD>Any whitespace character.</TD></TR>
+        <TR>
+          <TD>upper</TD>
+          <TD>Any upper case character A-Z. Other characters
+            may also be included depending upon the locale.</TD></TR>
+        <TR>
+          <TD>xdigit</TD>
+          <TD>Any hexadecimal digit character, 0-9, a-f and
+            A-F.</TD></TR>
+        <TR>
+          <TD>word</TD>
+          <TD>Any word character - all alphanumeric characters
+            plus the underscore.</TD></TR>
+        <TR>
+          <TD>unicode</TD>
+          <TD>Any character whose code is greater than 255,
+            this applies to the wide character traits classes
+            only.</TD></TR></TBODY></TABLE>
+    <P>There are some shortcuts that can be used in place of
+      the character classes:</P>
+    <UL>
+      <LI>\w in place of [:word:]
+      <LI>\s in place of [:space:]
+      <LI>\d in place of [:digit:]
+      <LI>\l in place of [:lower:]
+      <LI>\u in place of [:upper:]&nbsp; </LI></UL>
+    <H3><A name="rxCollElem"></A>Collating
+      elements</H3>
+    <P>Collating elements take the general form [.tagname.]
+      inside a set declaration, where <I>tagname</I> is either a
+      single character, or a name of a collating element, for example [[.a.]] is
+      equivalent to [a], and [[.comma.]] is equivalent to [,]. ISAPI_Rewrite supports
+      all the standard POSIX collating element names, and in addition the following
+      digraphs: "ae", "ch", "ll", "ss", "nj", "dz", "lj", each in lower, upper and
+      title case variations. Multi-character collating elements can result in the set
+      matching more than one character, for example [[.ae.]] would match two
+      characters, but note that [^[.ae.]] would only match one character.&nbsp;</P>
+    <H3><A name="rxEquivClasses"></A>Equivalence classes</H3>
+    <P>Equivalence classes take the general form [=tagname=] inside a
+      set declaration, where <I>tagname</I> is either a single
+      character, or a name of a collating element, and matches any character that is
+      a
+      member of the same primary equivalence class as the collating element
+      [.tagname.]. An equivalence class is a set of characters that collate the same,
+      a primary equivalence class is a set of characters whose primary sort key are
+      all the same (for example strings are typically collated by character, then by
+      accent, and then by case; the primary sort key then relates to the character,
+      the secondary to the accentation, and the tertiary to the case). If there is no
+      equivalence class corresponding to <I>tagname</I>, then
+      [=tagname=] is exactly the same as [.tagname.].</P>
+    <P>To include a literal "-" in a set declaration then: make
+      it the first character after the opening "[" or "[^", the endpoint of a range,
+      a
+      collating element, or precede it with an escape character as in "[\-]". To
+      include a literal "[" or "]" or "^" in a set then make them the endpoint of a
+      range, a collating element, or precede with an escape character.&nbsp;</P>
+    <H3><A name="rxLineAnchors"></A>Line
+      anchors</H3>
+    <P>An anchor is something that matches the null string at
+      the start or end of a line: "^" matches the null string at the start of a line,
+      "$" matches the null string at the end of a line.&nbsp;</P>
+    <H3><A name="rxBackRef"></A>Back
+      references</H3>
+    <P>A back reference is a reference to a previous
+      sub-expression that has already been matched, the reference is to what the
+      sub-expression matched, not to the expression itself. A back reference consists
+      of the escape character "\" followed by a digit "1" to "9", "\1" refers to the
+      first sub-expression, "\2" to the second etc. For example the expression
+      "(.*)\1" matches any string that is repeated about its mid-point for example
+      "abcabc" or "xyzxyz". A back reference to a sub-expression that did not
+      participate in any match, matches the null string. In ISAPI_Rewrite all back
+      references are global for entire RewriteRule and corresponding RewriteCond
+      directives. Sub matches are numbered up to down and left to right beginning
+      from
+      the first RewriteCond directive of the corresponding RewriteRule directive, if
+      there is one.</P>
+
+    <H3><A name="rxLookAhead"></A>Forward Lookahead Asserts</H3>
+    <P>There are two forms of these; one for positive forward lookahead asserts, and one for
+    negative lookahead asserts:
+    <UL>
+    <LI>"(?=abc)" matches zero characters only if they are followed by the expression "abc".</LI>
+    <LI>"(?!abc)" matches zero characters only if they are not followed by the expression "abc".</LI>
+    </UL></P>
+
+
+
+    <H3><A name="rxWordOp"></A>Word
+      operators</H3>
+    <P>The following operators are provided for compatibility
+      with the GNU regular expression library.</P>
+    <UL>
+      <LI>"\w" matches any single character that is a member of
+      the "word" character class, this is identical to the expression "[[:word:]]".
+      <LI>"\W" matches any single character that is not a
+      member of the "word" character class, this is identical to the expression
+      "[^[:word:]]".
+      <LI>"\&lt;" matches the null string at the start of a
+      word.
+      <LI>"\&gt;" matches the null string at the end of the
+      word.
+      <LI>"\b" matches the null string at either the start or
+      the end of a word.
+      <LI>"\B" matches a null string within a word. </LI></UL>
+    <H3><A name="rxEscapeOp"></A>Escape
+      operator</H3>
+    <P>The escape character "\" has several meanings.</P>
+    <UL>
+      <LI>The escape operator may introduce an operator for
+      example: back references, or a word operator.
+      <LI>The escape operator may make the following character
+        normal, for example "\*" represents a literal "*" rather than the repeat
+        operator. </LI></UL>
+    <H4>Single character escape sequences:</H4>
+    <P>The following escape sequences are aliases for single
+      characters:<BR>&nbsp;</P>
+    <TABLE id="Table3" cellSpacing="2" cellPadding="7" border="0">
+      <TBODY>
+        <TR>
+          <TH>Escape sequence</TH>
+          <TH>Character code</TH>
+          <TH>Meaning</TH></TR>
+        <TBODY>
+          <TR>
+            <TD>\a</TD>
+            <TD>0x07</TD>
+            <TD>Bell character.</TD></TR>
+          <TR>
+            <TD>\t</TD>
+            <TD>0x09</TD>
+            <TD>Tab character.</TD></TR>
+          <TR>
+            <TD>\v</TD>
+            <TD>0x0B</TD>
+            <TD>Vertical tab.</TD></TR>
+          <TR>
+            <TD>\e</TD>
+            <TD>0x1B</TD>
+            <TD>ASCII Escape character.</TD></TR>
+          <TR>
+            <TD>\0dd</TD>
+            <TD>0dd</TD>
+            <TD>An octal character code, where <I>dd</I> is one or more octal digits.</TD></TR>
+          <TR>
+            <TD>\xXX</TD>
+            <TD>0xXX</TD>
+            <TD>A hexadecimal character code, where XX is one or
+              more hexadecimal digits.</TD></TR>
+          <TR>
+            <TD>\x{XX}</TD>
+            <TD>0xXX</TD>
+            <TD>A hexadecimal character code, where XX is one or
+              more hexadecimal digits, optionally a unicode character.</TD></TR>
+          <TR>
+            <TD>\cZ</TD>
+            <TD>z-@</TD>
+            <TD>An ASCII escape sequence control-Z, where Z is
+              any ASCII character greater than or equal to the character code for
+              '@'.</TD></TR></TBODY></TABLE>&nbsp;
+    <H4>Miscellaneous escape sequences:</H4>
+    <P>The following are provided mostly for perl
+      compatibility, but note that there are some differences in the meanings of \l
+      \L
+      \u and \U:&nbsp;</P>
+    <TABLE id="Table4" cellSpacing="2" cellPadding="7" border="0">
+      <TBODY>
+        <TR>
+          <TH>Escape sequence</TH>
+          <TH>Meaning</TH>
+        <TR>
+          <TD>\w</TD>
+          <TD>Equivalent to [[:word:]].</TD></TR>
+        <TR>
+          <TD>\W</TD>
+          <TD>Equivalent to [^[:word:]].</TD></TR>
+        <TR>
+          <TD>\s</TD>
+          <TD>Equivalent to [[:space:]].</TD></TR>
+        <TR>
+          <TD>\S</TD>
+          <TD>Equivalent to [^[:space:]].</TD></TR>
+        <TR>
+          <TD>\d</TD>
+          <TD>Equivalent to [[:digit:]].</TD></TR>
+        <TR>
+          <TD>\D</TD>
+          <TD>Equivalent to [^[:digit:]].</TD></TR>
+
+        <TR>
+          <TD>\l</TD>
+          <TD>Equivalent to [[:lower:]].</TD></TR>
+        <TR>
+          <TD>\L</TD>
+          <TD>Equivalent to [^[:lower:]].</TD></TR>
+        <TR>
+          <TD>\u</TD>
+          <TD>Equivalent to [[:upper:]].</TD></TR>
+        <TR>
+          <TD>\U</TD>
+          <TD>Equivalent to [^[:upper:]].</TD></TR>
+        <TR>
+          <TD>\C</TD>
+          <TD>Any single character, equivalent to '.'.</TD></TR>
+        <TR>
+          <TD>\X</TD>
+          <TD>Match any Unicode combining character sequence,
+            for example "a\x 0301" (a letter a with an acute).</TD></TR>
+        <TR>
+          <TD>\Q</TD>
+          <TD>The begin quote operator, everything that follows
+            is treated as a literal character until a \E end quote operator is
+            found.</TD></TR>
+        <TR>
+          <TD>\E</TD>
+          <TD>The end quote operator, terminates a sequence
+            begun with \Q.</TD></TR></TBODY></TABLE>&nbsp;
+    <H3><A name="rxWhatMatch"></A>What gets
+      matched?</H3>
+    <P>The regular expression will match the first possible
+      matching string, if more than one string starting at a given location can match
+      then it matches the longest possible string. In cases where their are multiple
+      possible matches all starting at the same location, and all of the same length,
+      then the match chosen is the one with the longest first sub-expression, if that
+      is the same for two or more matches, then the second sub-expression will be
+      examined and so on. Note that ISAPI_Rewrite uses MATCH algorithm. The result is
+      matched only if the expression matches the whole input sequence. For example:
+    </P>
+    <UL>
+      <LI>RewriteCond URL ^/somedir/.* #will match any request
+        to <I>somedir</I> directory and subdirectories, while
+      <LI>RewriteCond URL ^/somedir/ #will match only request
+        to the root of the <I>somedir.</I> </LI></UL>
+    <H3><A name="pathologic"></A>Special note about "pathological" regular expressions</H3>
+    <P>ISAPI_Rewrite uses a very powerful regular expressions engine Regex++ from Boost library.
+    However it has some limitations: <CITE>There exists some "pathological" expressions
+    which may require exponential time for matching; these all involve nested repetition operators,
+    for example attempting to match the expression "(a*a)*b" against N letter a's requires time
+    proportional to 2<SUP>N</SUP>. These expressions can (almost) always be rewritten in such a way
+    as to avoid the problem, for example "(a*a)*b" could be rewritten as "a*b" which requires only
+    time linearly proportional to N to solve. In the general case, non-nested repeat expressions
+    require time proportional to N<SUP>2</SUP>, however if the clauses are mutually exclusive then
+    they can be matched in linear time - this is the case with "a*b", for each character the
+    matcher will either match an "a" or a "b" or fail, where as with "a*a" the matcher can't tell
+    which branch to take (the first "a" or the second) and so has to try both.</CITE></P>
+    <P>Regex++ can detect such "pathological" regular expressions and terminate
+    theirs matching. This will cause ISAPI_Rewrite's rule to fail. When a rule fails ISAPI_Rewrite sends "500 Internal Server error - Rule Failed" status
+    to a client to indicate configuration error.</P>
+    <H2><A name="FormStrSynt"></A>Format
+      string syntax</H2>
+    <P>In format strings, all characters are treated as
+      literals except: "(", ")", "$", "\", "?", ":".</P>
+    <P>To use any of these as literals you must prefix them
+      with the escape character \</P>
+    <P>The following special sequences are
+      recognized:&nbsp;</P>
+    <H4><I>Grouping:</I></H4>
+    <P>Use the parenthesis characters ( and ) to group
+      sub-expressions within the format string, use \( and \) to represent literal
+      '('
+      and ')'.&nbsp;</P>
+    <H4><I>Sub-expression
+        expansions:</I></H4>
+    <P>The following perl like expressions expand to a
+      particular matched sub-expression:</P>
+    <TABLE id="Table5" cellSpacing="2" cellPadding="7" border="0">
+      <TBODY>
+        <TR>
+          <TD>$`</TD>
+          <TD>Expands to all the text from the end of the
+            previous match to the start of the current match, if there was no previous
+            match in the current operation, then everything from the start of the
+            input string to the start of the match.</TD></TR>
+        <TR>
+          <TD>$'</TD>
+          <TD>Expands to all the text from the end of the match
+            to the end of the input string.</TD></TR>
+        <TR>
+          <TD>$&amp;</TD>
+          <TD>Expands to all of the current match.</TD></TR>
+        <TR>
+          <TD>$0</TD>
+          <TD>Expands to all of the current match.</TD></TR>
+        <TR>
+          <TD>$N</TD>
+          <TD>Expands to the text that matched sub-expression
+            <I>N</I>.</TD></TR></TBODY></TABLE>&nbsp;
+    <H4><I>Conditional
+        expressions:</I></H4>
+    <P>Conditional expressions allow two different format
+      strings to be selected dependent upon whether a sub-expression participated in
+      the match or not:</P>
+    <P>?Ntrue_expression:false_expression</P>
+    <P>Executes true_expression if sub-expression <I>N</I> participated in the match,
+      otherwise executes
+      false_expression.</P>
+    <P>Example: suppose we search for "(while)|(for)" then the
+      format string "?1WHILE:FOR" would output what matched, but in upper case.</P>
+    <H4><I>Escape sequences:</I></H4>
+    <P>The following escape sequences are also allowed:<BR>&nbsp;</P>
+    <TABLE id="Table6" cellSpacing="2" cellPadding="7" border="0">
+      <TBODY>
+        <TR>
+          <TD>\a</TD>
+          <TD>The bell character.</TD></TR>
+        <TR>
+          <TD>\f</TD>
+          <TD>The form feed character.</TD></TR>
+        <TR>
+          <TD>\n</TD>
+          <TD>The newline character.</TD></TR>
+        <TR>
+          <TD>\r</TD>
+          <TD>The carriage return character.</TD></TR>
+        <TR>
+          <TD>\t</TD>
+          <TD>The tab character.</TD></TR>
+        <TR>
+          <TD>\v</TD>
+          <TD>A vertical tab character.</TD></TR>
+        <TR>
+          <TD>\x</TD>
+          <TD>A hexadecimal character - for example \x0D.</TD></TR>
+        <TR>
+          <TD>\x{}</TD>
+          <TD>A possible unicode hexadecimal character - for
+            example \x{1A0}</TD></TR>
+        <TR>
+          <TD>\cx</TD>
+          <TD>The ASCII escape character x, for example \c@ is
+            equivalent to escape-@.</TD></TR>
+        <TR>
+          <TD>\e</TD>
+          <TD>The ASCII escape character.</TD></TR>
+        <TR>
+          <TD>\dd</TD>
+          <TD>An octal character constant, for example
+            \10.</TD></TR></TBODY></TABLE>
+    <H2><A name="examples"></A>Examples</H2>
+
+  <h3>&nbsp;</h3>
+                      <table width="100%" border="0">
+                        <tr>
+                          <td width="100%"><p><strong><a href="http://www.helicontech.com/articles/provocative_SEF_URLs.doc">Featured
+          article: </a></strong><strong><a href="http://www.helicontech.com/articles/provocative_SEF_URLs.doc">URL
+          Rewriting Using ISAPI_Rewrite</a></strong></p>
+        <p>This article is a compilation form the chapter 3 &quot;Provocative
+          SE-Friendly URLs” of the book <a href="http://www.amazon.com/Professional-Search-Engine-Optimization-ASP-NET/dp/0470131470" target="_blank">Professional
+          Search Engine Optimization with ASP.NET: A Developer's Guide to SEO</a>
+          by Cristian Darie and Jaimie Sirovich.</p>
+                            <p>This article covers most popular techniques how
+                              to employ static-looking and keyword reach URLs
+                              in a dynamic web site step-by-step.</p></td>
+                        </tr>
+                      </table>
+    <H3>Emulating host-header-based virtual sites on a single
+      site</H3>
+    <P>For example you have registered two domains <B>www.site1.com</B> and <B>www.site2.com</B><I>.&nbsp;</I>
+      Now
+      you can create two different sites using single physical site. Add the
+      following
+      rules to your httpd.ini file:</P>
+    <TABLE class="code" id="Table7" width="98%">
+      <TBODY>
+        <TR>
+          <TD><PRE>[ISAPI_Rewrite]
+
+#Fix missing slash char on folders
+RewriteCond  Host:  (.*)
+RewriteRule  ([^.?]+[^.?/]) http\://$1$2/ [I,R]
+
+#Emulate site1
+RewriteCond  Host:  (?:www\.)?site1\.com
+RewriteRule  (.*)   /site1$1 [I,L]
+
+#Emulate site2
+RewriteCond  Host:  (?:www\.)?site2\.com
+RewriteRule  (.*)   /site2$1 [I,L]
+
+</PRE></TD></TR></TBODY></TABLE>
+    <P>Now just place your sites in <B>/site1</B> and <B>/site2
+      </B>directories.</P>
+    <P>Or you can use more generic rules:</P>
+    <TABLE class="code" id="Table8" width="98%">
+      <TBODY>
+        <TR>
+          <TD><PRE>[ISAPI_Rewrite]
+
+#Fix missing slash char on folders
+RewriteCond  Host:  (.*)
+RewriteRule  ([^.?]+[^.?/]) http\://$1$2/ [I,R]
+
+RewriteCond  Host:  (www\.)?(.+)
+RewriteRule  (.*)   /$2$3
+
+</PRE></TD></TR></TBODY></TABLE>
+    <P>The directory names for sites should be like <B>/somesite1.com</B>, <B>/somesite2.info</B>,
+      etc.</P>
+
+
+    <H3>Using different namespaces on development and live servers</H3>
+    <P>Suppose you are developing rules for a website that will be deployed to a /livesite/ folder on a live server.
+    However, on a development machine you need to store files in the /develop/ folder. In this case you could use
+    UriMatchPrefix and UriFormatPrefix directives to minimize a number of changes those will be needed for a namespace
+    change:</P>
+    <TABLE class="code" id="Table7" width="98%">
+      <TBODY>
+        <TR>
+          <TD><PRE>[ISAPI_Rewrite]
+
+#specify namespaces with UriMatchPrefix and UriFormatPrefix
+UriMatchPrefix /develop
+UriFormatPrefix /develop
+
+#rules are going here
+
+#really we are checking for /develop/sampleN.htm and formatting to /develop/sampleN.asp
+RewriteRule /sample1.htm /sample1.asp [I,L]
+RewriteRule /sample2.htm /sample2.asp [I,L]
+RewriteRule /sample3.htm /sample3.asp [I,L]
+
+#reset namespaces to default
+UriMatchPrefix
+UriFormatPrefix
+</PRE></TD></TR></TBODY></TABLE>
+<P>The only things you will need to change before a deployment to a live server are values of UriMatchPrefix
+and UriFormatPrefix.</P>
+
+
+  <H3>Using loops (Next flag) to convert request parameters</H3>
+
+  <P>Suppose you wish to access physical URLs like <B>http://www.myhost.com/foo.asp?a=A&b=B&c=C</B>
+  using requests like <B>http://www.myhost.com/foo.asp/a/A/b/B/c/C</B> and the
+  number of parameters may vary from one request to another.</P>
+    <P>There exist at least two possible solutions. You could simply add a separate rule for each possible number
+    of parameters or you could use a technique demonstrated by the following example.</P>
+    <TABLE class="code" id="Table7" width="98%">
+      <TBODY>
+        <TR>
+          <TD><PRE>[ISAPI_Rewrite]
+RewriteRule (.*?\.asp)(\?[^/]*)?/([^/]*)/([^/]*)(.*) $1(?2$2&:\?)$3=$4$5 [NS,I]</PRE></TD></TR></TBODY></TABLE>
+<p><NOTE><font color="red">Note that this rule may break page-relative links to CSSs, images, etc.
+This is due to a change in the base path (parent folder of the page) that is being used by a browser
+to calculate complete resource URI. There are three possible solutions:
+<OL>
+<LI>Use the rule given below. It does not affect base path.</LI>
+<LI>Directly specify correct base path for a page with the help of &lt;base href="/folder/page.asp"&gt; tag.</LI>
+<LI>Change all page-relative links to either root-relative or absolute form.</LI>
+</OL>
+</font></NOTE></p>
+    <P>This rule will extract one parameter from request URL, append it to the end of the request string
+    and restart rules processing from the beginning. So it will loop until all parameters will be moved
+    to the right place (or until the RepeatLimit will be exceeded).</P>
+
+    <P>There also exist many variations of this rule with different separator characters. For example,
+    to use URLs like <B>http://www.myhost.com/foo.asp~a~A~b~B~c~C</B> the following rule could
+    be implemented:</P>
+    <TABLE class="code" id="Table7" width="98%">
+      <TBODY>
+        <TR>
+          <TD><PRE>[ISAPI_Rewrite]
+RewriteRule (.*?\.asp)(\?[^~]*)?~([^~]*)~([^~]*)(.*) $1(?2$2&:\?)$3=$4$5 [NS,I]</PRE></TD></TR></TBODY></TABLE>
+
+  <H3>Running servers behind IIS</H3>
+  <P>Assume we have internet server running IIS and several corporate servers
+  running other platform. These servers are not directly accessible from the
+  internet but only from our corporate network. Here is a simple example how
+  to map another server into the IIS site&#8217;s namespace using proxy flag:</P>
+  <TABLE class="code" id="Table7" width="98%">
+  <TBODY>
+    <TR>
+    <TD><PRE>[ISAPI_Rewrite]
+RewriteProxy /mappoint(.+) http\://sitedomain$1 [I,U]</PRE></TD>
+    </TR>
+  </TBODY>
+  </TABLE>
+  <H3>Moving sites from UNIX to IIS</H3>
+    <P>This rules can help change the URL from /~username to
+      /username and /file.html to /file.htm. It can be useful if you just moved your
+      site from UNIX to IIS and keep getting hits to the old pages from search
+      engines
+      and other external pages.</P>
+    <TABLE class="code" id="Table9" width="98%">
+      <TBODY>
+        <TR>
+          <TD><PRE>[ISAPI_Rewrite]
+
+#redirecting to update old links
+RewriteRule (.*)\.html $1.htm
+RewriteRule  /~(.*)  http\://myserver/$1 [R]</PRE></TD></TR></TBODY></TABLE>
+    <H3>Moving site location</H3>
+    <P>Many webmasters asked for a solution to the following
+      problem: They want to redirect all requests to one web server to another
+      web
+      server. Such problems usually arise when you need to establish a newer web
+      server which will replace the old one over time. The solution is to use
+      ISAPI_Rewrite on the old web server:</P>
+    <TABLE class="code" id="Table10" width="98%">
+      <TBODY>
+        <TR>
+          <TD><PRE>[ISAPI_Rewrite]
+
+#redirecting to update old links
+RewriteRule  (.+)  http\://newwebserver$1 [R]</PRE></TD></TR></TBODY></TABLE>
+    <H3>Browser-dependent content</H3>
+    <P>It is sometimes necessary to provide browser-dependent
+      content at least for important top-level pages, i.e. one has to provide a
+      full-featured version for the Internet Explorer, a minimum-featured version for
+      the Lynx browsers and an average-featured version for all others.</P>
+    <P>We have to act on the HTTP header "User-Agent". The
+      sample code does the following: If the HTTP header "User-Agent" contains
+      "MSIE",
+      the target foo.htm is rewritten to foo.IE.htm. If the
+      browser is "Lynx" or "Mozilla" of
+      version 1 or 2 the URL becomes foo.20.htm.
+      Other browsers receive page foo.32.html. All
+      this is done by the following ruleset:</P>
+    <TABLE class="code" id="Table11" width="98%">
+      <TBODY>
+        <TR>
+          <TD><PRE>[ISAPI_Rewrite]
+
+RewriteCond  User-Agent:  .*MSIE.*
+RewriteRule  /foo\.htm  /foo.IE.htm  [L]
+
+RewriteCond  User-Agent:  (?:Lynx|Mozilla/[12]).*
+RewriteRule  /foo\.htm  /foo.20.htm  [L]
+
+RewriteRule  /foo\.htm  /foo.32.htm  [L]</PRE></TD></TR></TBODY></TABLE>
+    <H3>Dynamically generated robots.txt</H3>
+    <P>robots.txt is a file that search engines use to discover
+      URLs that should or should not be indexed. But creation of this file for large
+      sites with lot of dynamic content is a very complex task. Have you ever dreamed
+      about dynamically generated robots.txt? Let's write robots.asp script:</P>
+
+  <TABLE class="code" id="Table12" width="98%">
+  <TBODY>
+    <TR>
+    <TD><PRE>&lt;%@ Language=JScript EnableSessionState=False%&gt;
+&lt;%
+
+//The script must return plain text
+Response.ContentType="text/plain";
+
+/*
+Place generation code here
+*/
+
+%&gt;</PRE></TD>
+    </TR>
+  </TBODY>
+  </TABLE>
+  <P>Now make it robots.txt using single rule:</P>
+    <TABLE class="code" id="Table13" width="98%">
+      <TBODY>
+        <TR>
+          <TD><PRE>[ISAPI_Rewrite]
+
+RewriteRule  /robots\.txt  /robots.asp</PRE></TD></TR></TBODY></TABLE>
+
+<H3>Making search engines to index dynamic pages</H3>
+    <P>Content of the site stored in XML files. There is <B>/XMLProcess.asp</B> file
+      that processes XML files on server
+      and returns HTML to end user. URLs to the documents have a form of:<BR><B>http://www.mysite.com/XMLProcess.asp?xml=/somdir/somedoc.xml<BR></B>
+      But many popular search engines will not index such
+      documents because URLs contain question mark (document is dynamically
+      generated). ISAPI_Rewrite can competely eliminate this problem.</P>
+    <TABLE class="code" id="Table14" width="98%">
+      <TBODY>
+        <TR>
+          <TD><PRE>[ISAPI_Rewrite]
+
+RewriteRule  /doc(.*)\.htm  /XMLProcess.asp\?xml=$1.xml</PRE></TD></TR></TBODY></TABLE>
+    <P>Now to access documents use URL like <B>http://www.mysite.com/doc/somedir/somedoc.htm</B>.
+      Search
+      engines will never know that physically there is no somedoc.htm file and
+      content
+      is dynamically generated.</P>
+
+  <H3>Negative expressions (NOT)</H3>
+
+  <P>Sometimes you need to apply rule when some pattern not matches. In this case
+  you may use so called Forward Lookahead Asserts in regular expressions.</P>
+    <P>For example you need to move all users not using
+      Internet Explorer to the other location:</P>
+    <TABLE class="code" id="Table15" width="98%">
+      <TBODY>
+        <TR>
+          <TD><PRE>[ISAPI_Rewrite]
+# Redirect all non Internet Explorer users
+# to another location
+RewriteCond  User-Agent: <B>(?!.*MSIE)</B>.*
+RewriteRule  (.*) /nonie$1</PRE></TD></TR></TBODY></TABLE>
+
+  <H3>Dynamic authentication</H3>
+
+  <P>For example we have some members area on the site and we need password-protect
+  files in this area but we don't like to use built-in server security. In this
+  case it is possible to create ASP script (call it proxy.asp) that will proxy
+  all requests to the members area and check for required permissions. Here
+  is a simple template for this page where you can put your own authorization
+  code:</P>
+  <TABLE class="code" id="Table12" width="98%">
+  <TBODY>
+    <TR>
+    <TD><PRE>&lt;%@ Language=JScript EnableSessionState=False%&gt;
+&lt;%
+function Authorize()
+{
+
+  //Check if the user is authorized to view a resource here
+  //Return true if user has a required permission, otherwise return false
+
+  return true;
+}
+if(!Authorize())
+{
+  //Redirect to the login page
+  Response.Redirect("http://mysite.com/LoginPage.asp?ref="+Request.QueryString.Item);
+  Response.End()
+}
+var WinHttpReq = new ActiveXObject(&quot;WinHttp.WinHttpRequest.5&quot;);
+WinHttpReq.Open(Request.ServerVariables(&quot;REQUEST_METHOD&quot;).Item, Request.QueryString.Item, true);
+var headers=String(Request.ServerVariables(&quot;ALL_RAW&quot;)).split(&quot;\n&quot;);
+for(i=0; i&lt;headers.length &amp;&amp; headers[i]; i++)
+{
+  header = headers[i].match(/([\w-\.]+):\s*([ \S]*)/);
+  if(header)
+    WinHttpReq.SetRequestHeader(header[1],header[2]);
+}
+if(lngCount = Request.TotalBytes)
+{
+  var data=Request.BinaryRead(lngCount);
+  WinHttpReq.Send(data);
+} else {
+  WinHttpReq.Send();
+}
+if(!WinHttpReq.WaitForResponse(15))
+{
+  WinHttpReq.Abort();
+  Response.Status=&quot;408 Request Timeout&quot;;
+} else {
+  Response.Status = &quot;&quot; + WinHttpReq.Status + &quot; &quot; + WinHttpReq.StatusText;
+  headers=String(WinHttpReq.GetAllResponseHeaders()).split(&quot;\n&quot;);
+  for(i=0; i&lt;headers.length &amp;&amp; headers[i]; i++)
+  {
+    header = headers[i].match(/([\w-\.]+):\s*([ \S]*)/);
+    if(header)
+      Response.AddHeader(header[1],header[2]);
+  }
+  Response.Write(WinHttpReq.ResponseText);
+}
+%&gt;</PRE>
+    </TD>
+    </TR>
+  </TBODY>
+  </TABLE>
+  <P>Now we need to configure ISAPI_Rewrite to proxy requests through this page:</P>
+    <TABLE class="code" id="Table17" width="98%">
+      <TBODY>
+        <TR>
+          <TD><PRE>[ISAPI_Rewrite]
+# Proxy all requests through proxy.asp
+RewriteRule  /members(.+)  /proxy.asp\?http\://mysite.com/members$1</PRE></TD></TR></TBODY></TABLE>
+
+  <H3>Blocking inline-images (stop hot linking)</H3>
+    <P>Assume we have some pages with inlined GIF graphics under
+      <B>http://www.mysite.com/</B>. These graphics are nice, so others directly
+      incorporate them via hyperlinks to their pages. We don't like this practice
+      because it adds useless traffic to our server.</P>
+    <P>While we cannot 100% protect the images from inclusion, we can at least
+      restrict the cases where the browser sends a HTTP <B>Referer</B> header.</P>
+
+  <TABLE class="code" width="98%" id="Table18">
+    <TBODY>
+        <TR>
+          <TD><PRE>[ISAPI_Rewrite]
+RewriteCond Host: (.+)<br>RewriteCond Referer: (?!http://\1.*).*<br>RewriteRule .*\.(?:gif|jpg|png) /block.gif [I,O]</PRE>
+          </TD></TR></TBODY></TABLE>
+
+  <H2><A name="rxtest"></A>Regular Expressions Testing Tool</H2>
+  <P>RXTest utility could be used to simulate rule execution. The following examples demonstrate its
+  usage.
+  <OL>
+  <LI><p>A simple rule:<br>
+    <TABLE class="code" id="Table10" width="98%">
+      <TBODY>
+        <TR>
+          <TD><PRE>RewriteRule (.+) http\://newwebserver$1 [I,R]</PRE></TD></TR></TBODY></TABLE>
+    <i>Regular expression</i> textbox will correspond to the <i>pattern</i> part of the rule. Here it will be:<br>
+    <pre>(.+)</pre><br>
+    <i>Format string</i> textbox will correspond to the <i>format</i> part of the rule. In this case it
+    will be:
+    <pre>http\://newwebserver$1</pre><br>
+    <i>Ignore case</i> checkbox will correspond to the <i>I</i> flag of the rule. So, it shall be checked.<br>
+    Something like <b>/test</b> could be taken as the Test string. Then you will get
+    <b>http://newwebserver/test</b> as the <i>Format Result</i>.
+  </p></LI>
+  <LI><p>A rule with a condition:<br>
+    <TABLE class="code" id="Table10" width="98%">
+      <TBODY>
+        <TR>
+          <TD><PRE>RewriteCond Host: (?!www\.)(.+)
+RewriteRule (.+) http\://www.$1$2 [I,RP]</PRE></TD></TR></TBODY></TABLE>
+    To combine two regular expressions into a single one some separator character that will not occur
+    in a real URI could be used. For example, it could be <b>!</b>. Then <i>Regular expression</i> will
+    be:
+      <pre>(?!www\.)(.+)!(.+)</pre><br>
+    <i>Format string</i> textbox will be:
+      <pre>http\://www.$1$2</pre><br>
+    <i>Ignore case</i> checkbox will be checked.<br>
+    If <b>www.host.com!/anything</b> will be taken as the <i>Test string</i> result will be <b>Not
+    matched</b>. But <b>host.com!/anything</b> will produce <b>http://www.host.com/anything</b>.
+  </p></LI>
+  <LI><p>A rule with iterations:<br>
+    <TABLE class="code" id="Table10" width="98%">
+      <TBODY>
+        <TR>
+          <TD><PRE>RewriteRule (.*?\.asp)(\?[^/]*)?/([^/]*)/([^/]*)(.*) $1(?2$2&:\?)$3=$4$5 [NS,I]
+          </PRE></TD></TR></TBODY></TABLE>
+    Such rule (having N or NS flag) could not be simulated in the Regular Expressions Test
+    Tool as a whole. However it could be simulated step by step. Initially rule could be
+    splitted into a <i>pattern</i> and <i>format</i> as in the previous samples. Then on the first
+    step some <i>test string</i> could be provided that will result in some <i>format result</i>.
+    This <i>format result</i> should be taken as a <i>test string</i> on the second step, etc.
+  </p></LI>
+  </OL>
+  </P>
+  <H2><A name="whatsnew"></A>Feature history</H2>
+  <H3>ISAPI_Rewrite version 2.13 build 71:</H3>
+  <UL>
+  <LI>Fixed permanent "loss" of a per-site configuration in case of a metabase error during a
+  config name resolution.</LI>
+  <LI>Added logic to bypass config oudating when config file is locked for writing by
+  an other application.</LI>
+  <LI>Fixed possible rare crash on removal of non-used config from a config cache.</LI>
+  <LI>Compiled with VC 9 and Boost 1.35.</LI>
+  </UL>
+  <H3>ISAPI_Rewrite version 2.12 build 70:</H3>
+  <UL>
+  <LI>Fixed possible request timeout in the proxy when a client delays request body transfer.</LI>
+  </UL>
+  <H3>ISAPI_Rewrite version 2.11 build 69:</H3>
+  <UL>
+  <LI>Compiled with Boost 1.34.1.</LI>
+  </UL>
+  <H3>ISAPI_Rewrite version 2.11 build 68:</H3>
+  <UL>
+  <LI>Updated Configuration Utility manifest to disable virtualization on Vista.</LI>
+  <LI>Compiled with Boost 1.34.</LI>
+  </UL>
+  <H3>ISAPI_Rewrite version 2.11 build 67:</H3>
+  <UL>
+  <LI>Fixed possible AV on zero-content-length response in the proxy.</LI>
+  <LI>Added headers X-Forwarded-For, X-Forwarded-Host and X-Forwarded-Server to a proxy subrequest.</LI>
+  </UL>
+  <H3>ISAPI_Rewrite version 2.10 build 66:</H3>
+  <UL>
+  <LI>Vista compatibility update.</LI>
+  </UL>
+  <H3>ISAPI_Rewrite version 2.9 build 65:</H3>
+  <UL>
+  <LI>Proxy will not remove empty headers. They will passed to a proxied server as they are.</LI>
+  </UL>
+  <H3>ISAPI_Rewrite version 2.9 build 64:</H3>
+  <UL>
+  <LI>Added chunked requests support to the proxy. However, Trailer headers are not supported.</LI>
+  </UL>
+  <H3>ISAPI_Rewrite version 2.9 build 63:</H3>
+  <UL>
+  <LI>Added <A href="#UriMatchPrefix">UriMatchPrefix</A> and <A href="#UriFormatPrefix">UriFormatPrefix</A>
+  directives.</LI>
+  </UL>
+  <H3>ISAPI_Rewrite version 2.8 build 62:</H3>
+  <UL>
+  <LI>Improved keep-alive handling. Keep-alive has been disabled for HTTP/1.0 requests and for responses
+  without Content-Length header (except 304).</LI>
+  </UL>
+  <H3>ISAPI_Rewrite version 2.8 build 61:</H3>
+  <UL>
+  <LI>Fixed crash on EnableRewrite/DisableRewrite and EnableConfig/DisableConfig directives
+  caused by the VC8 STL bug.</LI>
+  </UL>
+  <H3>ISAPI_Rewrite version 2.8 build 60:</H3>
+  <UL>
+  <LI>Fixed incorrect status codes from proxy in IIS logs.</LI>
+  <LI>Enabled Keep-Alive between a client and the proxy.</LI>
+  </UL>
+  <H3>ISAPI_Rewrite version 2.8 build 59:</H3>
+  <UL>
+  <LI>x64 version release. x64-version accepts the same keys as 32-bit version.</LI>
+  <LI>Fixed possible stack corruption in the proxy (introduced in build 58 during migration to VC8 CRT).</LI>
+  </UL>
+  <H3>ISAPI_Rewrite version 2.8 build 58:</H3>
+  <UL>
+  <LI>x64 version release candidate.</LI>
+  <LI>Experimental Itanium version. Unfortunately, we do not have Itanium-based systems at this moment,
+  so we can not even test it. However, we beleive that it should work since it uses the same code base
+  as other versions. Any feedback will be valuable.</LI>
+  <LI>Compiled with Visual Studio 2005.</LI>
+  </UL>
+  <H3>ISAPI_Rewrite version 2.8 build 57:</H3>
+  <UL>
+  <LI>Added ability to retry POST and PUT requests when authentication
+  against proxied server is required. This is a replacement to the fix introduced in the build 54
+  which have not covered all possible cases.</LI>
+  <LI>Updated <a href="#proxyAuth">Authentication schemes available for proxy</a> section.</LI>
+  <LI>Added <b>A</b>dd authentication headers flag for <a href="#RewriteProxy">RewriteProxy directive</a>.</LI>
+  <LI>Updated <a href="#security">Permissions required to run ISAPI_Rewrite</a> section.</LI>
+  <LI>Built with Boost 1.33.1.</LI>
+  </UL>
+  <H3>ISAPI_Rewrite version 2.8 build 56:</H3>
+  <UL>
+  <LI>Changed "Preserve <B>H</B>ost" flag logic to preserve both host name and port of a Host header
+  (only host name was preserved in the previous builds).</LI>
+  </UL>
+  <H3>ISAPI_Rewrite version 2.8 build 55:</H3>
+  <UL>
+  <LI>Fixed incorrect removal of Authorization headers from a proxy subrequest when explicit proxy
+  authentication is not enabled.</LI>
+  </UL>
+  <H3>ISAPI_Rewrite version 2.8 build 54:</H3>
+  <UL>
+  <LI>Fixed "Resend your request" error when posting through a proxy to a server requiring
+  Integrated authentication.</LI>
+  <LI>Added description of <a href="#proxyAuth">authentication schemes available for the proxy</a>.</LI>
+  <LI>Added H flag (preserve Host) to the <a href="#RewriteProxy">RewriteProxy directive</a>.</LI>
+  <LI>Added <b>Suppress error details</b> option for the <a href="#ConfigUtility">proxy</a>.</LI>
+  <LI>Built with Boost 1.33.</LI>
+  </UL>
+  <H3>ISAPI_Rewrite Beta version 2.7 build 53 fox x64 and Itanium:</H3>
+  <UL>
+  <LI>Beta x64 and Itanium versions of the ISAPI_Rewrite Full.</LI>
+  </UL>
+  <H3>ISAPI_Rewrite version 2.7 build 53:</H3>
+  <UL>
+  <LI>Fixed broken NS flag support in the Lite and ISA versions.</LI>
+  </UL>
+  <H3>ISAPI_Rewrite version 2.7 build 52:</H3>
+  <UL>
+  <LI>Fixed bug with Transfer-Encoding header in a proxy response introduced in build 51.</LI>
+  </UL>
+  <H3>ISAPI_Rewrite version 2.7 build 51:</H3>
+  <UL>
+  <LI><B><font color="red">License keys changed!</font></B> New license keys has format AAAAA-BBBBB-CCCCC-DDDDD.<br>
+  <B><font color="red">If you have old key for the ISAPI_Rewrite 2.x please visit
+  <a href="http://www.isapirewrite.com/keyupdate/">this page</a> to renew your key.</font></B></LI>
+  <LI>Fixed IIS termination when trial expired.</LI>
+  <LI>ISAPI_Rewrite for the ISA 2004 released.</LI>
+  <LI>Fixed possibility of insertion of two Connection headers into the proxy response.</LI>
+  </UL>
+  <H3>ISAPI_Rewrite version 2.7 build 50 (internal):</H3>
+  <UL>
+  <LI>Created ISAPI_Rewrite for the ISA 2004.</LI>
+  <LI>Added NS flag (repeat of the same rule) to the RewriteRule and RewriteHeader.</LI>
+  </UL>
+  <H3>ISAPI_Rewrite version 2.6 build 49:</H3>
+  <UL>
+  <LI>Fixed incorrect parsing of a rule containing alternatives without enclosing brackets in conditions</LI>
+  </UL>
+  <H3>ISAPI_Rewrite version 2.6 build 48:</H3>
+  <UL>
+  <LI>Added CL (case lower) and CU (case upper) flags to the RewriteRule and RewriteHeader</LI>
+  <LI>Compiled with boost 1.32</LI>
+  </UL>
+  <H3>ISAPI_Rewrite version 2.5 build 47:</H3>
+  <UL>
+  <LI>Fixed possible proxy crash due to WinHTTP bug.</LI>
+  </UL>
+  <H3>ISAPI_Rewrite version 2.5 build 46:</H3>
+  <UL>
+  <LI>Fixed possible proxy crash on new-style forbid (regression).</LI>
+  <LI>Improved redirects and forbids RFC compliance.</LI>
+  </UL>
+  <H3>ISAPI_Rewrite version 2.5 build 45:</H3>
+  <UL>
+  <LI>Fixed bug with DisableRewrite directive introduced in build 44.</LI>
+  </UL>
+  <H3>ISAPI_Rewrite version 2.5 build 44:</H3>
+  <UL>
+  <LI>Reduced memory consumption by a process executing filter.</LI>
+  <LI>Added advanced error logging to the installation.</LI>
+  <LI>Fixed incorrect loading of the "Helper URL" parameter from registry
+  in the Configuration Utility.</LI>
+  </UL>
+  <H3>ISAPI_Rewrite version 2.5 build 43:</H3>
+  <UL>
+  <LI>Proxy module will change Location header of 3xx responses to point to the proxying
+  server if it originally points to a proxied server.</LI>
+  <LI>Fixed memory leak and WinHTTP handles leak in the proxy module in case of response timeout.
+  </LI>
+  <LI>Added description of <a href="#security">Permissions required to run ISAPI_Rewrite</a> to the
+  documentation.
+  </LI>
+  </UL>
+  <H3>ISAPI_Rewrite version 2.4 build 42:</H3>
+  <UL>
+  <LI>Fixed problem with incorrect WinHTTP timeouts setting for a request in the proxy module.
+  </LI>
+  </UL>
+  <H3>ISAPI_Rewrite version 2.4 build 41:</H3>
+  <UL>
+  <LI>Fixed problem with long query strings in the proxy module.
+  </LI>
+  </UL>
+  <H3>ISAPI_Rewrite version 2.3 build 39:</H3>
+  <UL>
+  <LI>Incorporated Regex++ fix for non-greedy patterns.
+  </LI>
+  </UL>
+  <H3>ISAPI_Rewrite version 2.3 build 38:</H3>
+  <UL>
+  <LI>Compiled with new Regex library from boost 1.31.0. Matching speed significantly increased.
+  </LI>
+  <LI>Fixed RXTest utility crash on "pathological" regular expressions.</LI>
+  </UL>
+  <H3>ISAPI_Rewrite version 2.3 build 37:</H3>
+  <UL>
+  <LI>Fixed problem with old-style HTTPS redirects and forbids.</LI>
+  </UL>
+  <H3>ISAPI_Rewrite version 2.2 build 32:</H3>
+  <UL>
+  <LI>Added Permanent Redirect [RP] flag to the RewriteRule/RewriteHeader directives</LI>
+  <LI>Added possibility to configure Connect, Send and Receive timeouts for the proxy module through
+  the configuration utility.</LI>
+  </UL>
+  <H3>ISAPI_Rewrite version 2.2 build 30:</H3>
+  <UL>
+  <LI>Proxy module was redesigned and rewritten to use IIS's asynchronous I/O functions.</LI>
+  <LI>Threads pooling strategy was changed:
+  <UL>
+    <LI>"Threads Spawn Threshold" parameter was replaced with 2 new parameters
+    - "Worker threads limit" and "Active threads limit".</LI>
+  </UL>
+  </LI>
+  <LI>Added possibility to automatically fix registration keys broken by Outlook to the Configuration
+  Utility.</LI>
+  <LI>Proxy module uses WinHTTP 5.1.</LI>
+  </UL>
+  <H3>ISAPI_Rewrite version 2.1 build 28:</H3>
+  <UL>
+  <LI>Fixed several problems related to a new protection system:
+    <UL>
+    <LI>"Invalid Access to Memory Location" in the proxy module.</LI>
+    <LI>Some per-site configs may not work.</LI>
+    <LI>Filter may not work when installed at a site level.</LI>
+    </UL>
+  </LI>
+    <LI>Added possibility of a manual product installation.</LI>
+    <LI>Proxy module now returns more friendly error messages.</LI>
+  </UL>
+  <H3>ISAPI_Rewrite version 2.1 build 24:</H3>
+  <UL>
+  <LI>Moved to new trial protection system. Fixed several bugs with trial check.</LI>
+  <LI>New directive RewriteProxy brings more flexible proxy features.</LI>
+  <LI>Fixed bug with EnableRewrite/DisableRewrite.</LI>
+  <LI>Proxy module now sends redirect responses to the client.</LI>
+  <LI>Fixed several bugs in the documentation.</LI>
+  </UL>
+  <H3>ISAPI_Rewrite version 2.0.1 build 22:</H3>
+  <UL>
+  <LI>Added script for manual proxy module registration in a script maps (full
+    version only). Look into the <A href="#ConfigUtility" >Configuration Utility</A>
+    section for details.</LI>
+  <LI>Add new config directive RFStyle for controlling of redirect and forbid
+    responses style (full version only). Redirect and forbidden now could be
+    issued in the same way as in 1.3 (old style) or in a way of 2.0 (new style).
+    Default is an old way.</LI>
+  </UL>
+  <H3>ISAPI_Rewrite version 2.0 build 21:</H3>
+  <UL>
+  <LI>Changed "pathological" rules protection. Failed rules are not disabled
+    anymore.</LI>
+  </UL>
+  <H3>ISAPI_Rewrite version 2.0 build 20:</H3>
+  <UL>
+  <LI>Now ISAPI_Rewrite supports proxy throughput. Use [P] flag in RewriteRule
+    or RewriteHeader directive to proxy request. Check the <A href="#ConfigUtility" >Configuration
+    Utility</A> section of the documentation for details of the proxy module
+    configuration.</LI>
+  <LI>New directives EnableRewrite and DisableRewrite which can be used to enable
+    or disable rewriting globally or for each site separately.</LI>
+  <LI>New directives EnableConfig and DisableConfig intended to enable or disable
+    site level configurations for a selected site.</LI>
+  <LI>Now ISAPI_Rewrite Full has a trial period.</LI>
+  <LI>New helper ISAPI extension intended to serve proxying, redirecting and
+    blocking requests.</LI>
+  <LI>Using new Regex++ version from Boost 1.29.0 with more bug fixes and new
+    features.</LI>
+  </UL>
+  <H3>ISAPI_Rewrite version 1.3 build 16:</H3>
+  <UL>
+  <LI>Introduced some modifications to the Regex++ regular expressions engine
+    to overcome a problem with "pathological" rules requiring exponential time
+    for processing. Now time to process a single rule is limited to half-second.
+    If a rule fails to complete in this time a processing finishes and ISAPI_Rewrite
+    sends "500 Internal Server error" to a client to indicate configuration
+    error.</LI>
+  <LI>Added new <STRONG>N</STRONG> (Next) flag to the RewriteRule and RewriteHeader
+    directives. It makes possible to organize loops while processing rules.</LI>
+  <LI>Added <STRONG>RepeatLimit</STRONG> directive to limit the number of possible
+    loops.</LI>
+  <LI>Added <STRONG>F</STRONG> (Forbidden) flag to the RewriteRule and RewriteHeader
+    directives. It forces to send 404 Not Found response to a client if a positive
+    match detected.</LI>
+  <LI>Added <STRONG>O</STRONG> (nOrmalize) flag to the RewriteRule, RewriteHeader
+    and RewriteCond directives. It points out that checked string first should
+    be normalized (i.e. URL encoding, illegal characters, etc removed).</LI>
+  <LI>Added a possibility to check ServerVariables with RewriteCond directive.
+    It could be done using %ServerVariable instead of a header name.</LI>
+  <LI>Improved configuration parsing process error logging. Now error messages
+    contain line numbers.</LI>
+  </UL>
+  <H3>ISAPI_Rewrite version 1.2 build 14 (Full version only):</H3>
+  <UL>
+  <LI>Fixed a problem introduced in the Full version 1.1 build 11. Configuration
+    flag CacheClockRate was incorrectly parsed. And after the first cache cleanup
+    inetinfo.exe process began to consume 99% of a CPU time. </LI>
+  </UL>
+  <H3>ISAPI_Rewrite version 1.2 build 13:</H3>
+  <UL>
+  <LI>Added new flag <STRONG>U</STRONG> (Unmangle Log). Now ISAPI_Rewrite can
+    log URL as it was originally requested.</LI>
+  </UL>
+  <H3>ISAPI_Rewrite version 1.1 build 11:</H3>
+  <UL>
+  <LI>Fixed a problem with the truncation of the last character of a configuration
+    file.
+  <LI>Fixed several shortcomings with documentation and default configuration
+    files.
+  <LI>Included additional optimisation for the Internet Information Server 6.0.
+  <LI>ISAPI_Rewrite now adds custom header with original URL information to
+    the client request, so the original URL can be retrieved in the server script.
+  <LI>New&nbsp;<EM>RewriteHeader </EM>directive now allows to rewrite not only
+    the URL part of the client request, but any other HTTP header or even method
+    and version information.</LI>
+  </UL></DIV>
+    <BR>
+<DIV class=regex>
+<P>This document contains part of the Boost library documentation covered by the
+<a href="http://www.boost.org/LICENSE_1_0.txt">Boost license</a>.</P>
+</DIV><BR>
+<HR>
+  <P class=copyright>Copyright ©&nbsp; 2002 - 2007, Helicon Tech</P>
+</DIV>
+</BODY></HTML>

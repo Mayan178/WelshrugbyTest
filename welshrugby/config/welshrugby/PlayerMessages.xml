@@ -1,0 +1,18 @@
+<playermessages>
+
+	<message type="failure">
+		<container title="You have failed to add a Player" summary=""/>
+		<container title="You have failed to update a Player" summary=""/>
+		<container title="You are not logged in" summary=""/>
+		<container title="You have failed to delete a Player" summary=""/>
+		<container title="You failed to add a player to your team" summary=""/>
+	</message>
+	
+	<message type="success">
+		<container title="You have successfully added a Player" summary=""/>
+		<container title="You have successfully updated a Player" summary=""/>
+		<container title="You have successfully deleted a Player" summary=""/>
+		<container title="You have successfully added a player to your team" summary=""/>
+	</message>
+	
+</playermessages>

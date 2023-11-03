@@ -1,0 +1,28 @@
+<leagueteammessages>
+
+	<message type="failure">
+		<container title="You are not logged in" summary=""/>
+		<container title="You have failed to delete a Team" summary=""/>
+		<container title="You have failed to edit a Team" summary=""/>
+		<container title="You have failed to add a Comment" summary=""/>
+		<container title="You have failed to update a Comment" summary=""/>
+		<container title="You have failed to delete a Comment" summary=""/>
+		<container title="You have failed to add a Team" summary=""/>
+		<container title="You have failed to update the tactics for the Team" summary=""/>
+	</message>
+	
+	<message type="warning">
+		<container title="" summary=""/>
+	</message>
+	
+	<message type="success">
+		<container title="You have successfully deleted a Team" summary=""/>
+		<container title="You have successfully edited a Team" summary=""/>
+		<container title="You have successfully added a Comment" summary=""/>
+		<container title="You have successfully updated a Comment" summary=""/>
+		<container title="You have successfully deleted a Comment" summary=""/>
+		<container title="You have successfully added a Team" summary=""/>
+		<container title="You have successfully updated the tactics for the Team" summary=""/>
+	</message>
+	
+</leagueteammessages>

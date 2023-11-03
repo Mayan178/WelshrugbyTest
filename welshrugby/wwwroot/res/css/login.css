@@ -1,0 +1,90 @@
+/*specific to the login page */
+html, body	{
+	margin: 0;
+	padding: 0;
+	height: 100%;
+	color: #787878;
+	background-position: 50% 50%;
+	background-repeat: no-repeat;
+	text-align: center;
+	padding-left: 10px;
+	padding-right: 10px;
+	}
+
+body, select, textarea, input	{
+	font-family: Verdana, Geneva, Arial, Helvetica, sans-serif;	
+	font-size: 11px;
+	}
+
+
+a.redirect {color:#000000;text-decoration:none;}
+a:hover.redirect {color:#000000; text-decoration:underline;}
+
+p	{
+	color: #787878;
+	margin: 0;
+	padding: 0;
+	font-size: 11px;
+	padding: 10px;
+	line-height: 13px;
+	}
+
+#container
+{
+	height: 100%;
+	width: 100%;
+	border-collapse: collapse;
+	vertical-align:middle;
+}
+
+#mainloginright{font-size: medium;}
+
+#mainloginright p {font-size: medium;} 
+
+#mainloginright a {color:#787878;text-decoration:none;}
+#mainloginright a:hover {color:#787878; text-decoration:underline;}
+
+.login-form {
+    border-radius: 8px;
+    background-color: #f9fafc;
+    box-shadow: -1px -1px 1px 0 rgba(0, 0, 0, 0.1), 1px 2px 10px 0 rgba(0,0,0,0.5);
+	color:#fff;
+	padding: 10px;
+	margin:20px 0 20px 0;
+	text-align: left;
+ }
+
+ .login-form {color:#000000;}
+
+	
+.clear {
+	clear: both; 
+	font-size: 0; 
+	height: 0px; 
+	}
+	
+.success-detail, .failure-detail {
+	width: 100%;
+	padding: 0 10px 0 0;
+	vertical-align: middle;	
+	}
+
+.success .label, .failure .label{
+	font-weight:bold;
+	}
+	
+.success .message, .failure .message {
+	padding-left: 4px;
+	}
+    
+.failure {
+	font-family: Verdana, Geneva, Arial, Helvetica, sans-serif;	
+	font-size: 11px;
+	color:red;
+	}
+
+.success {
+	font-family: Verdana, Geneva, Arial, Helvetica, sans-serif;	
+	font-size: 11px;
+	color:#000000;
+	}

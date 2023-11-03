@@ -1,0 +1,225 @@
+/*specific to the default template */
+
+#nav {
+	padding:5px;
+	background-color:#ED1435;
+	height:20px;
+	margin:0;
+	}
+
+#navleft {
+	text-align:left;
+	float: left;
+	color:#ffffff;
+	background-color:#ED1435;
+	}
+
+#navright {
+	text-align:right;
+	float: right;
+	background-color:#ED1435;
+	}
+
+#navright a {color:#fff;text-decoration:none;}
+#navright a:hover {color:#fff; text-decoration:underline;}
+
+#underlogotoparea {
+	padding: 0;
+	margin:0;
+	background-image: url(/res/img/national/england/underlogo_top.gif);
+	background-repeat: repeat-x;
+	height:4px;
+	}
+
+#underlogoarea {
+	padding: 0;
+	background-image: url(/res/img/national/england/underlogo.gif);
+	background-repeat: repeat-x;
+	height:4px;
+	}
+	
+#undersiteChangearea {
+	padding: 0;
+	background-image: url(/res/img/national/england/underlogo.gif);
+	background-repeat: repeat-x;
+	height:4px;
+	}
+	
+#mainrightline {
+	padding: 0;
+	background-color:#ED1435;
+	height:9px;
+	}
+
+#mainrightlineunder {	
+	padding: 0;
+	background-image: url(/res/img/national/england/underlogo.gif);
+	background-repeat: repeat-x;
+	height:9px;
+	}
+
+.mainrightlinebottom {
+	padding: 0;
+	background-color:#ED1435;
+	height:9px;
+	margin-top:5px;
+	}
+
+#defaultcontainerarea {
+	background-color: #ffffff;
+	width: 780px;
+	text-align: left;
+	border:1px solid #3D6C48;
+	}
+
+#defaultpagecontent .breadcrumb {
+	border-bottom: 2px solid #3D6C48;
+	}
+
+#defaultpagecontent .breadcrumb a {
+    color:#3D6C48;
+	text-decoration:none;
+	} 
+
+#defaultpagecontent .breadcrumb a:hover {
+    color:#3D6C48;
+	text-decoration:underline;
+	} 
+	
+#breadcrumblinks {
+	padding: 5px 10px 5px 0;
+	float:left;
+	}
+
+/*
+.last10Added a {color:#909EF0;text-decoration:none;}
+.last10Added a:hover {color:#909EF0; text-decoration:underline;}
+*/
+
+
+/* mainstats */
+.mainstats {
+	width:100%;
+	background-color: #D5ECDA;
+	padding-top:2px;
+	padding-right:5px;
+	height:20px;
+	}
+	
+.mainteamInfo {
+	width:100%;
+	background-color: #D5ECDA;
+	padding-top:12px;
+	padding-right:5px;
+	height:24px;
+	}
+
+.maincommentInfo {
+	width:100%;
+	background-color: #D5ECDA;
+	padding-top:2px;
+	padding-right:5px;
+	height:20px;
+	}
+	
+/* page headings */
+h1	{
+	color: #3D6C48;
+	font-size: 13px;
+	}
+
+h2	{
+	color: #3D6C48;
+	font-size: 11px;
+	padding:3px;
+	margin:0;
+	}
+
+h3	{
+	color: #3D6C48;
+	font-size: 10px;
+	padding:3px;
+	margin:0;
+	}
+
+#introductorytext {
+	color: #3D6C48;
+	font-weight:bold;
+	}
+	
+#warningtext {
+	color: red;
+	font-weight:bold;
+	}
+
+
+#errortext {
+	color: red;
+	font-weight:bold;
+	}
+
+.success {
+	font-family: Verdana, Geneva, Arial, Helvetica, sans-serif;	
+	font-size: 11px;
+	color:#3D6C48;
+	}
+	
+#newsmore {
+	color: #3D6C48;
+	font-size: 10px;
+	padding:3px;
+	margin:0;
+	}
+
+#searchcriteria {
+	color: #3D6C48;
+	font-size: 10px;
+	margin:0;
+	}
+	
+hr {
+	border:0;
+	background-color: #3D6C48;
+	color: #3D6C48;
+	height:2px;
+	width: 760px;
+	}
+
+hr.formcontained {
+	border:0;
+	background-color: #3D6C48;
+	color: #3D6C48;
+	height:2px;
+	width: 680px;
+	}
+	
+/*showUsers */
+.showUsers table {
+	background-color: #ffffff;
+	font-family: Verdana, Geneva, Arial, Helvetica, sans-serif;	
+	font-size: 11px;
+	width: 760px;
+	border: 1px solid #3D6C48;
+	}
+	
+.showUsers th{
+	background-color: #D5ECDA;
+	border-bottom: 1px solid #3D6C48;
+	}
+
+.showUsers th.first{
+	border-right: 1px solid #3D6C48;
+	}
+	
+.showUsers td{
+	text-align:right;
+	padding:4px 2px 4px 2px;
+	}
+	
+.showUsers td.first{
+	border-right: 1px solid #3D6C48;
+	}
+/* end of showUsers */
+
+
+/* end of specific to the default template */

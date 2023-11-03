@@ -1,0 +1,15 @@
+<LeagueReportMessages>
+
+	<message type="failure">
+		<container title="You are not logged in" summary=""/>
+	</message>
+	
+	<message type="warning">
+		<container title="" summary=""/>
+	</message>
+	
+	<message type="success">
+		<container title="" summary=""/>
+	</message>
+	
+</LeagueReportMessages>

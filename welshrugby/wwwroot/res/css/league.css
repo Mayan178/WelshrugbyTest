@@ -1,0 +1,119 @@
+/*specific to the default template */
+
+.top10CSR {
+	background-color: #ffffff;
+	color: #787878;
+	padding:5px;
+	width:570px;
+	}
+	
+.top10CSRinjured {
+	background-color: #ffffff;
+	color: #CC0000;
+	padding:5px;
+	width:570px;
+	}
+
+#defaultcontainerarea {
+	background-color: #ffffff;
+	width: 780px;
+	text-align: left;
+	border:1px solid #D4CCAA;
+	}
+
+.breadcrumb {padding:0; margin:0;}
+
+.breadcrumb a {
+    color:#4966A6;
+	text-decoration:none;
+	} 
+
+.breadcrumb a:hover {
+    color:#4966A6;
+	text-decoration:underline;
+	} 
+	
+#breadcrumblinks {
+	padding: 5px 10px 5px 0;
+	float:left;
+	}
+
+.admin-side-link {
+    border-radius: 8px;
+    background-color: #4966A6;
+    box-shadow: -1px -1px 1px 0 rgba(0, 0, 0, 0.1), 1px 2px 10px 0 rgba(0,0,0,0.5);
+	color:#fff;
+	padding: 10px;
+ }
+
+ .admin-side-link a  {
+	color:#fff;
+	text-decoration:none;
+ }
+
+ .admin-side-link a:hover {
+	color:#fff;
+	text-decoration: underline;
+ }
+
+.playerStats, .teamStats, .matchStats, .reportStats {
+	background-color: #4966A6;
+	color: #fff;
+	}
+
+.playerStats a, .playerStats a:hover, .teamStats a, .teamStats a:hover, .matchStats a, .matchStats a:hover {color: #fff;}
+
+.updated-data{font-size: small;}
+
+.pagination {cursor:pointer;}
+
+	
+	h1,h2,h3,h4,h5,h6	{
+		color: #4966A6;
+		}
+	
+#introductorytext {
+	color: #4966A6;
+	font-weight:bold;
+	}
+	
+#warningtext {
+	color: red;
+	font-weight:bold;
+	}
+
+#errortext {
+	color: red;
+	font-weight:bold;
+	}
+
+.success {
+	font-family: Verdana, Geneva, Arial, Helvetica, sans-serif;	
+	font-size: 11px;
+	color:#4966A6;
+	}
+	
+#newsmore {
+	color: #4966A6;
+	font-size: 10px;
+	padding:3px;
+	margin:0;
+	}
+
+	
+hr {
+	border:0;
+	background-color: #4966A6;
+	color: #4966A6;
+	height:2px;
+	width: 760px;
+	}
+
+	
+#PlayersRatingsHelpTxt {
+	border: 1px solid #4966A6;
+	margin: 20px;
+}
+
+
+		

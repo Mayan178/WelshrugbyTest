@@ -1,0 +1,11 @@
+<formfactorymessages>
+
+	<message type="warning">
+		<container title="Please Note" summary="Your Company Account has not yet been assigned to your web Login. Please contact us on +44 (0)1582 747500 to activate your login for purchasing against your Company Account."/>
+	</message>
+	
+	<message type="hint">
+		<container title="If your Institution is not located in the countries above, please contact us on +44 (0)1582 747500" summary=""/>
+	</message>
+	
+</formfactorymessages>

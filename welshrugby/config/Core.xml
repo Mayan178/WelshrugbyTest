@@ -1,0 +1,34 @@
+<sites>
+	<site applicationName="welshrugby"
+			domains="localhost,127.0.0.1"
+			configFolder="welshrugby"
+	>
+		<!-- application.cfc this.<> settings -->
+		<setting name="applicationTimeout" value="createTimeSpan(1,0,0,0)" eval="true"/>
+		<setting name="sessionTimeout" value="createTimeSpan(0,2,0,0)" eval="true"/>
+
+		<setting name="clientManagement" value="false"/>
+		<setting name="sessionManagement" value="true"/>
+
+		<setting name="clientStorage" value="registry"/>
+		<setting name="loginStorage" value="session"/>
+
+		<setting name="setClientCookies" value="true"/>
+		<setting name="setDomainCookies" value="false"/>
+
+		<setting name="scriptProtect" value="false"/>
+
+		<!-- these settings are needed here because they deal with checks BEFORE the main processes kick in -->
+		<settings>
+			<!-- reload - true=application components are reloaded each request. false=app components are cached -->
+			<dependant evaluate="get('domainName')" compareTo="localhost" name="reload" value="false"/>
+			<dependant evaluate="get('domainName')" compareTo="127.0.0.1" name="reload" value="false"/>
+				
+
+			<!-- lockout - true=activate server lockout -->
+			<dependant evaluate="get('domainName')" compareTo="localhost" name="lockout" value="false"/>
+			<dependant evaluate="get('domainName')" compareTo="127.0.0.1" name="lockout" value="false"/>
+			
+		</settings>
+	</site>
+</sites>

@@ -1,0 +1,38 @@
+<leagueplayermessages>
+
+	<message type="failure">
+		<container title="You have failed to add a Player to your League Team" summary=""/>
+		<container title="You have failed to update a Player" summary=""/>
+		<container title="You are not logged in" summary=""/>
+		<container title="You have failed to delete a Player" summary=""/>
+		<container title="You failed to add a Player to your Team" summary=""/>
+		<container title="You failed to add a Player and update this Player on your National Team" summary=""/>
+		<container title="You failed to update this Player on both Teams" summary=""/>
+		<container title="You failed to update this Player on your National Team" summary=""/>
+		<container title="You failed to add a Player to your National Team and update this Player on your League Team" summary=""/>
+		<container title="You have failed to add a Player to your National Team" summary=""/>
+		<container title="You have failed to add a Player to both Teams" summary=""/>
+		<container title="You failed to update a Player and add this Player to your National Team" summary=""/>
+		<container title="You failed to update Position Stats for your League Team" summary=""/>
+		<container title="You failed to paste in your League Squad" summary=""/>
+		<container title="You failed to reset your League Squad data" summary=""/>
+	</message>
+	
+	<message type="success">
+		<container title="You have successfully added a Player to your League Team" summary=""/>
+		<container title="You have successfully updated a Player" summary=""/>
+		<container title="You have successfully deleted a Player" summary=""/>
+		<container title="You have successfully added a player to your Team" summary=""/>
+		<container title="You have successfully added a Player and updated this Player on your National Team" summary=""/>
+		<container title="You have successfully updated this Player on both Teams" summary=""/>
+		<container title="You have successfully updated this Player on your National Team" summary=""/>
+		<container title="You have successfully added a Player to the National Team and updated this Player on your League Team" summary=""/>
+		<container title="You have successfully added a Player to your National Team" summary=""/>
+		<container title="You have successfully added a Player to both Teams" summary=""/>
+		<container title="You have successfully updated a Player and added this Player to your National Team" summary=""/>
+		<container title="You have successfully updated Position Stats for your League Team" summary=""/>
+		<container title="You have successfully pasted in your League Squad" summary=""/>
+		<container title="You have successfully reset your League Squad data" summary=""/>
+	</message>
+	
+</leagueplayermessages>

@@ -1,0 +1,12 @@
+<loginmessages>
+
+	<message type="failure">
+		<container title="Your login was unsuccessful" summary=""/>
+	</message>
+	
+	<message type="success">
+		<container title="You are now logged in" summary=""/>
+		<container title="You have successfully logged out" summary=""/>
+	</message>
+	
+</loginmessages>

@@ -1,0 +1,224 @@
+/*specific to the default template */
+
+#nav {
+	padding:5px;
+	background-color:#B4D7F4;
+	height:20px;
+	margin:0;
+	}
+
+#navleft {
+	text-align:left;
+	float: left;
+	color:#000000;
+	background-color:#B4D7F4;
+	}
+
+#navright {
+	text-align:right;
+	float: right;
+	background-color:#B4D7F4;
+	}
+
+#navright a {color:#000000;text-decoration:none;}
+#navright a:hover {color:#000000; text-decoration:underline;}
+
+#underlogotoparea {
+	padding: 0;
+	margin:0;
+	background-image: url(/res/img/national/argentina/underlogo_top.gif);
+	background-repeat: repeat-x;
+	height:4px;
+	}
+
+#underlogoarea {
+	padding: 0;
+	background-image: url(/res/img/national/argentina/underlogo.gif);
+	background-repeat: repeat-x;
+	height:4px;
+	}
+	
+#undersiteChangearea {
+	padding: 0;
+	background-image: url(/res/img/national/argentina/underlogo.gif);
+	background-repeat: repeat-x;
+	height:4px;
+	}
+	
+#mainrightline {
+	padding: 0;
+	background-color:#B4D7F4;
+	height:9px;
+	}
+
+#mainrightlineunder {	
+	padding: 0;
+	background-image: url(/res/img/national/argentina/underlogo.gif);
+	background-repeat: repeat-x;
+	height:9px;
+	}
+
+.mainrightlinebottom {
+	padding: 0;
+	background-color:#B4D7F4;
+	height:9px;
+	margin-top:5px;
+	}
+
+#defaultcontainerarea {
+	background-color: #ffffff;
+	width: 780px;
+	text-align: left;
+	border:1px solid #B4D7F4;
+	}
+
+#defaultpagecontent .breadcrumb {
+	border-bottom: 2px solid #F7F409;
+	}
+
+#defaultpagecontent .breadcrumb a {
+    color:#75AADB;
+	text-decoration:none;
+	} 
+
+#defaultpagecontent .breadcrumb a:hover {
+    color:#75AADB;
+	text-decoration:underline;
+	} 
+	
+#breadcrumblinks {
+	padding: 5px 10px 5px 0;
+	float:left;
+	}
+
+/*
+.last10Added a {color:#909EF0;text-decoration:none;}
+.last10Added a:hover {color:#909EF0; text-decoration:underline;}
+*/
+
+
+/* mainstats */
+.mainstats {
+	width:100%;
+	background-color: #DCE9F3;
+	padding-top:2px;
+	padding-right:5px;
+	height:20px;
+	}
+	
+.mainteamInfo {
+	width:100%;
+	background-color: #DCE9F3;
+	padding-top:12px;
+	padding-right:5px;
+	height:24px;
+	}
+
+.maincommentInfo {
+	width:100%;
+	background-color: #DCE9F3;
+	padding-top:2px;
+	padding-right:5px;
+	height:20px;
+	}
+	
+/* page headings */
+h1	{
+	color: #75AADB;
+	font-size: 13px;
+	}
+
+h2	{
+	color: #75AADB;
+	font-size: 11px;
+	padding:3px;
+	margin:0;
+	}
+
+h3	{
+	color: #75AADB;
+	font-size: 10px;
+	padding:3px;
+	margin:0;
+	}
+
+#introductorytext {
+	color: #75AADB;
+	font-weight:bold;
+	}
+	
+#warningtext {
+	color: red;
+	font-weight:bold;
+	}
+
+	
+#errortext {
+	color: red;
+	font-weight:bold;
+	}
+
+.success {
+	font-family: Verdana, Geneva, Arial, Helvetica, sans-serif;	
+	font-size: 11px;
+	color:#75AADB;
+	}
+	
+#newsmore {
+	color: #75AADB;
+	font-size: 10px;
+	padding:3px;
+	margin:0;
+	}
+
+#searchcriteria {
+	color: #75AADB;
+	font-size: 10px;
+	margin:0;
+	}
+	
+hr {
+	border:0;
+	background-color: #F7F409;
+	color: #F7F409;
+	height:2px;
+	width: 760px;
+	}
+
+hr.formcontained {
+	border:0;
+	background-color: #F7F409;
+	color: #F7F409;
+	height:2px;
+	width: 680px;
+	}
+
+/*showUsers */
+.showUsers table {
+	background-color: #ffffff;
+	font-family: Verdana, Geneva, Arial, Helvetica, sans-serif;	
+	font-size: 11px;
+	width: 760px;
+	border: 1px solid #B4D7F4;
+	}
+	
+.showUsers th{
+	background-color: #DCE9F3;
+	border-bottom: 1px solid #B4D7F4;
+	}
+
+.showUsers th.first{
+	border-right: 1px solid #B4D7F4;
+	}
+	
+.showUsers td{
+	text-align:right;
+	padding:4px 2px 4px 2px;
+	}
+	
+.showUsers td.first{
+	border-right: 1px solid #B4D7F4;
+	}
+/* end of showUsers */
+
+/* end of specific to the default template */
